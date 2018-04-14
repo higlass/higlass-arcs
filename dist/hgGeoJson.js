@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -4083,38 +4083,6 @@ transverseMercatorRaw.invert = function(x, y) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var config = {
-  type: 'geo-json',
-  datatype: ['geo-json'],
-  orientation: '2d',
-  name: 'GeoJSON',
-  availableOptions: ['projecton', 'labelPosition', 'labelColor', 'labelTextOpacity', 'labelBackgroundOpacity', 'trackBorderWidth', 'trackBorderColor', 'rectangleDomainFillColor', 'rectangleDomainStrokeColor', 'rectangleDomainOpacity', 'rectanlgeMinSize', 'polygonMinBoundingSize'],
-  defaultOptions: {
-    projecton: 'mercator',
-    labelColor: 'black',
-    labelPosition: 'hidden',
-    trackBorderWidth: 0,
-    trackBorderColor: 'black',
-    rectangleDomainFillColor: 'grey',
-    rectangleDomainStrokeColor: 'black',
-    rectangleDomainOpacity: 0.6,
-    rectanlgeMinSize: 1,
-    polygonMinBoundingSize: 4
-  }
-};
-
-exports.default = config;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -4126,7 +4094,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var GeoJsonTrack = function GeoJsonTrack(SuperClass) {
+var GeoJsonTrack = function GeoJsonTrack(HGC) {
   for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     args[_key - 1] = arguments[_key];
   }
@@ -4135,8 +4103,8 @@ var GeoJsonTrack = function GeoJsonTrack(SuperClass) {
     throw new Error('Uncaught TypeError: Class constructor cannot be invoked without "new"');
   }
 
-  var GeoJsonTrackClass = function (_SuperClass) {
-    _inherits(GeoJsonTrackClass, _SuperClass);
+  var GeoJsonTrackClass = function (_HGC$tracks$Annotatio) {
+    _inherits(GeoJsonTrackClass, _HGC$tracks$Annotatio);
 
     function GeoJsonTrackClass(scene, trackConfig, dataConfig, handleTilesetInfoReceived, animate) {
       _classCallCheck(this, GeoJsonTrackClass);
@@ -4298,15 +4266,35 @@ var GeoJsonTrack = function GeoJsonTrack(SuperClass) {
     }]);
 
     return GeoJsonTrackClass;
-  }(SuperClass);
+  }(HGC.tracks.Annotations2dTrack);
 
   return new (Function.prototype.bind.apply(GeoJsonTrackClass, [null].concat(args)))();
+};
+
+GeoJsonTrack.config = {
+  type: 'geo-json',
+  datatype: ['geo-json'],
+  orientation: '2d',
+  name: 'GeoJSON',
+  availableOptions: ['projecton', 'labelPosition', 'labelColor', 'labelTextOpacity', 'labelBackgroundOpacity', 'trackBorderWidth', 'trackBorderColor', 'rectangleDomainFillColor', 'rectangleDomainStrokeColor', 'rectangleDomainOpacity', 'rectanlgeMinSize', 'polygonMinBoundingSize'],
+  defaultOptions: {
+    projecton: 'mercator',
+    labelColor: 'black',
+    labelPosition: 'hidden',
+    trackBorderWidth: 0,
+    trackBorderColor: 'black',
+    rectangleDomainFillColor: 'grey',
+    rectangleDomainStrokeColor: 'black',
+    rectangleDomainOpacity: 0.6,
+    rectanlgeMinSize: 1,
+    polygonMinBoundingSize: 4
+  }
 };
 
 exports.default = GeoJsonTrack;
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4326,31 +4314,26 @@ var register = function register(trackDef) {
 exports.default = register;
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _higlassRegister = __webpack_require__(3);
+var _higlassRegister = __webpack_require__(2);
 
 var _higlassRegister2 = _interopRequireDefault(_higlassRegister);
 
-var _GeoJsonTrack = __webpack_require__(2);
+var _GeoJsonTrack = __webpack_require__(1);
 
 var _GeoJsonTrack2 = _interopRequireDefault(_GeoJsonTrack);
-
-var _config = __webpack_require__(1);
-
-var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _higlassRegister2.default)({
   name: 'GeoJsonTrack',
   track: _GeoJsonTrack2.default,
-  extends: 'Annotations2dTrack',
-  config: _config2.default
+  config: _GeoJsonTrack2.default.config
 });
 
 /***/ })

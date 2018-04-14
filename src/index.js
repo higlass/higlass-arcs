@@ -6,6 +6,5 @@ import config from './config';
 register({
   name: 'GeoJsonTrack',
   track: GeoJsonTrack,
-  extends: 'Annotations2dTrack',
   config,
 });

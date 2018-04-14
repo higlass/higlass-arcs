@@ -1,13 +1,13 @@
 import { geoMercator } from 'd3-geo';
 
-const GeoJsonTrack = (SuperClass, ...args) => {
+const GeoJsonTrack = (HGC, ...args) => {
   if (!new.target) {
     throw new Error(
       'Uncaught TypeError: Class constructor cannot be invoked without "new"',
     );
   }
 
-  class GeoJsonTrackClass extends SuperClass {
+  class GeoJsonTrackClass extends HGC.tracks.Annotations2dTrack {
     constructor(
       scene, trackConfig, dataConfig, handleTilesetInfoReceived, animate,
     ) {

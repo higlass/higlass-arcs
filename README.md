@@ -22,7 +22,7 @@ npm install higlass-geojson
 1. Make sure you load this track prior to `hglib.js`. For example:
 
 ```
-<script src="hiGeoJson.js"></script>
+<script src="higlass-geojson.js"></script>
 <script src="hglib.js"></script>
 <script>
   ...

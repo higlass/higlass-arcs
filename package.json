@@ -11,6 +11,11 @@
       "url": "http://github.com/flekschas"
     }
   ],
+  "main": "src/index.js",
+  "unpkg": "dist/higlass-geojson.min.js",
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "autoprefixer": "^8.2.0",
     "babel-core": "^6.26.0",

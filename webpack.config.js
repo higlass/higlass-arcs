@@ -8,8 +8,8 @@ const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 
 module.exports = {
   output: {
-    filename: 'hgGeoJson.min.js',
-    library: 'hgGeoJson',
+    filename: 'higlass-geojson.min.js',
+    library: 'higlass-geojson',
     libraryTarget: 'umd',
     path: path.resolve(__dirname, 'dist'),
   },

@@ -29,15 +29,15 @@ npm install higlass-geojson
 </script>
 ```
 
-2. Configure the track in the view config.
+2. Now, configure the track in your view config and be happy! Cheers 🎉
 
 ```
 {
   ...
   {
     server: 'http://localhost:8001/api/v1',
-    tilesetUid: 'my-fancy-geojson-db',
-    uid: 'my-fancy-geojson-db',
+    tilesetUid: 'my-outrageously-fancy-geojson-db',
+    uid: 'my-outrageously-fancy-geojson-db',
     type: 'geo-json',
     options: {
       labelColor: 'red',
@@ -51,21 +51,11 @@ npm install higlass-geojson
       rectanlgeMinSize: 3,
       minSquareSize: 4,
       polygonMinBoundingSize: 5,
-      name: 'My Fancy GeoJSON Stuff',
+      name: 'My Outrageously Fancy GeoJSON Stuff - Truly Awesome',
     },
   },
   ...
 }
-```
-
-3. Finally, add `GeoJsonTrack` to the option's `tracks` property when initializing HiGlass with `createHgComponent()` like so:
-
-```
-window.hglib.createHgComponent(
-  document.getElementById('demo'),
-  testViewConfig,
-  { tracks: ['GeoJsonTrack'], bounded: true },
-);
 ```
 
 Take a look at [`src/index.html`](src/index.html) for an example.

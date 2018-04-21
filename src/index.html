@@ -3,8 +3,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>HiGlass</title>
+<style type="text/css">
+html,
+body {
+  background: black !important;
+}
+</style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
-<link rel="stylesheet" href="../node_modules/HiGlass/dist/styles/hglib.css">
+<link rel="stylesheet" href="hglib.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.2/react.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/15.6.2/react-dom.min.js"></script>
@@ -19,7 +25,7 @@
     </div>
   </div>
 </body>
-<script src="../node_modules/HiGlass/dist/scripts/hglib.js"></script>
+<script src="hglib.js"></script>
 <script>
 const testViewConfig = {
   editable: true,
@@ -37,14 +43,10 @@ const testViewConfig = {
             contents: [
               {
                 type: 'osm-tiles',
-                position: 'center',
-                uid: 'osm',
-                name: 'OpenStreetMaps',
               },
               {
                 server: 'http://localhost:8001/api/v1',
                 tilesetUid: 'ski-resorts',
-                uid: 'ski-areas',
                 type: 'geo-json',
                 options: {
                   labelColor: 'red',
@@ -80,7 +82,9 @@ const testViewConfig = {
 };
 
 window.hglib.createHgComponent(
-  document.getElementById('demo'), testViewConfig, { bounded: true },
+  document.getElementById('demo'),
+  testViewConfig,
+  { bounded: true, isDarkTheme: true },
 );
 </script>
 </html>

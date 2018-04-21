@@ -2,7 +2,6 @@
   "name": "higlass-geojson",
   "version": "0.1.0",
   "description": "GeoJSON Track for HiGlass",
-  "private": true,
   "author": "Fritz Lekschas",
   "license": "MIT",
   "contributors": [
@@ -48,7 +47,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development --open",
-    "prerelease": "rm -rf dist/*; npm run build; zip -r dist.zip dist"
+    "prerelease": "rm -rf dist/*; npm run build"
   },
   "dependencies": {
     "higlass-register": "^0.1.0",

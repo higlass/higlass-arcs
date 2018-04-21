@@ -2,6 +2,12 @@
   "name": "higlass-geojson",
   "version": "0.1.0",
   "description": "GeoJSON Track for HiGlass",
+  "keywords": [
+    "HiGlass",
+    "Track",
+    "GeoJSON",
+    "Geographic Maps"
+  ],
   "author": "Fritz Lekschas",
   "license": "MIT",
   "contributors": [

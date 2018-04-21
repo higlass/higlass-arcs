@@ -21,6 +21,7 @@ deploy:
       tags: true
       repo: flekschas/higlass-geojson
   - provider: npm
+    skip_cleanup: true
     email: service@lekschas.de
     api_key:
       secure: bkCQgSvL5reu3VogLqM7ODq+lviWgiq1lSlZhQNu+aqEbdkwLAT5CMNebX8SAPg9LhFS+N+ExaK/THJm2vxaRv2Eu/7Z8y1028SkV8GFpXaajm1FI8CR1KO5pLuLrvT9ZwCXAACdyEluXqTomOBa1zQWrklwQOOvF6qwRrtEpLg4eyHK2VWeno2jhVWhuNfQJZq/6xf3D94boEhuBXmaLi/JeuGbESld8KLpZ+ndtZdLfioR1jV850jAo/MRgsO3OcTuTKpFSl3a6Au1o+AfA5ykKVIThPXG7XL5cfYzJfh21LQHlgSS5s7PmiGlK73DUw7sgjaRF4N1qeFZm++68T5zPMBbrNPabh6D6+vDJz6piecoq6FjSwCtv047Nlqo59bW4ZlzdhSituBL71AseKNiZfw+dM2TDno3szZXPNevwTYWJNVyRI8h3ii0XlMeUsteqybpVsuoKIGmoKzIyR/UbybSs8++RhvWtuOXlvqx7yTu6sk9+QSCD/McBDXjho4pIlQYynUf+ywbLMw8lQhKIJ+9nfe6qkunwPBwZqcZhJ54LPfdTTMpGyCm8R3jcs2Yb1qIr2rnARzHfN3khZ0YyT65U3q1PoeKJAm+k90If/9w4kMwOI317FxbiZE6bpdebaOaS8fmJFtaqLUTZtibKLliaQ65FvIMgokGKSo=

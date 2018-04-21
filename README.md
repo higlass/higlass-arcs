@@ -5,6 +5,8 @@
 [![HiGlass](https://img.shields.io/badge/higlass-👍-red.svg?colorB=0f5d92)](http://higlass.io)
 [![Build Status](https://img.shields.io/travis/flekschas/higlass-geojson/master.svg?colorB=0f5d92)](https://travis-ci.org/flekschas/higlass-geojson)
 
+![HiGlass showing ski areas with Mapbox](/teaser.jpg?raw=true "Ski areas around Park City shown with Mapbox")
+
 **Note**: This is the source code for the GeoJSON track only! You might want to check out the following repositories as well:
 
 - HiGlass viewer: https://github.com/hms-dbmi/higlass

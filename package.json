@@ -1,6 +1,6 @@
 {
   "name": "higlass-geojson",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "GeoJSON Track for HiGlass",
   "keywords": [
     "HiGlass",
@@ -16,6 +16,10 @@
       "url": "http://github.com/flekschas"
     }
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/flekschas/higlass-geojson.git"
+  },
   "main": "src/index.js",
   "unpkg": "dist/higlass-geojson.min.js",
   "files": [

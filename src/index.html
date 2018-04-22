@@ -3,12 +3,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>HiGlass</title>
-<style type="text/css">
-html,
-body {
-  background: black !important;
-}
-</style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
 <link rel="stylesheet" href="hglib.css">
 
@@ -43,10 +37,14 @@ const testViewConfig = {
             contents: [
               {
                 type: 'osm-tiles',
+                options: {
+                  name: 'World-wide Ski Areas',
+                }
               },
               {
                 server: 'http://localhost:8001/api/v1',
                 tilesetUid: 'ski-resorts',
+                name: 'Ski Areas',
                 type: 'geo-json',
                 options: {
                   labelColor: 'red',
@@ -84,7 +82,7 @@ const testViewConfig = {
 window.hglib.createHgComponent(
   document.getElementById('demo'),
   testViewConfig,
-  { bounded: true, isDarkTheme: true },
+  { bounded: true },
 );
 </script>
 </html>

@@ -57,6 +57,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development --open",
+    "ghp": "npm run prerelease; rm -rf ../higlass-geojson-ghp/*; cp -r ./dist/* ../higlass-geojson-ghp/; touch ../higlass-geojson-ghp/.nojekyll; touch ../higlass-geojson-ghp/CNAME; echo 'higlass-geojson.lekschas.de' > ../higlass-geojson-ghp/CNAME; cp ./node_modules/higlass/dist/scripts/hglib.js ../higlass-geojson-ghp/; cp ./node_modules/higlass/dist/styles/hglib.css ../higlass-geojson-ghp/",
     "prerelease": "rm -rf dist/*; npm run build; zip -r dist.zip dist"
   },
   "dependencies": {

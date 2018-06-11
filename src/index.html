@@ -3,8 +3,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="author" content="Fritz Lekschas">
-<meta name="description" content="Display your favorite GeoJSON annotation right in HiGlass.">
-<meta name="keywords" content="HiGlass, Plugin Tracks, GeoJSON, Openstreetmaps, Mapbox">
+<meta name="description" content="Display arcs along a 1D track">
+<meta name="keywords" content="HiGlass, Plugin Tracks, Arcs">
 <title>GeoJSON Track for HiGlass</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
 <link rel="stylesheet" href="hglib.css">
@@ -34,36 +34,11 @@ const testViewConfig = {
       initialXDomain: [-114.34492062432261, -103.1400637535123],
       initialYDomain: [-46.99008821605368, -39.07861292139287],
       tracks: {
-        center: [
+        top: [
           {
-            type: 'combined',
-            contents: [
-              {
-                type: 'osm-tiles',
-                options: {
-                  name: 'World-wide Ski Areas',
-                }
-              },
-              {
-                server: 'http://localhost:8001/api/v1',
-                tilesetUid: 'ski-resorts',
-                type: 'geo-json',
-                options: {
-                  labelColor: 'red',
-                  labelPosition: 'hidden',
-                  trackBorderWidth: 0,
-                  trackBorderColor: 'red',
-                  rectangleDomainFillColor: 'red',
-                  rectangleDomainFillOpacity: 0.25,
-                  rectangleDomainStrokeColor: 'red',
-                  rectangleDomainOpacity: 1,
-                  rectanlgeMinSize: 3,
-                  minSquareSize: 4,
-                  polygonMinBoundingSize: 5,
-                  name: 'Ski Areas',
-                },
-              },
-            ],
+              server: 'http://localhost:4007/api/v1',
+              tilesetUid: 'id_arcs.0.0',
+              type: '1d-arcs'
           },
         ],
       },

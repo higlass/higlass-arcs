@@ -1,12 +1,10 @@
 {
-  "name": "higlass-geojson",
+  "name": "higlass-arcs",
   "version": "0.1.2",
-  "description": "GeoJSON Track for HiGlass",
+  "description": "Arc tracks for HiGlass",
   "keywords": [
     "HiGlass",
-    "Track",
-    "GeoJSON",
-    "Geographic Maps"
+    "Track"
   ],
   "author": "Fritz Lekschas",
   "license": "MIT",
@@ -18,10 +16,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/flekschas/higlass-geojson.git"
+    "url": "git://github.com/pkerpedjiev/higlass-arcs.git"
   },
   "main": "src/index.js",
-  "unpkg": "dist/higlass-geojson.min.js",
+  "unpkg": "dist/higlass-arcs.min.js",
   "files": [
     "dist"
   ],
@@ -57,7 +55,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development --open",
-    "ghp": "npm run prerelease; rm -rf ../higlass-geojson-ghp/*; cp -r ./dist/* ../higlass-geojson-ghp/; touch ../higlass-geojson-ghp/.nojekyll; touch ../higlass-geojson-ghp/CNAME; echo 'higlass-geojson.lekschas.de' > ../higlass-geojson-ghp/CNAME; cp ./node_modules/higlass/dist/scripts/hglib.js ../higlass-geojson-ghp/; cp ./node_modules/higlass/dist/styles/hglib.css ../higlass-geojson-ghp/",
+    "ghp": "npm run prerelease; rm -rf ../higlass-arcs-ghp/*; cp -r ./dist/* ../higlass-arcs-ghp/; touch ../higlass-arcs-ghp/.nojekyll; touch ../higlass-arcs-ghp/CNAME; cp ./node_modules/higlass/dist/scripts/hglib.js ../higlass-arcs-ghp/; cp ./node_modules/higlass/dist/styles/hglib.css ../higlass-arcs-ghp/",
     "prerelease": "rm -rf dist/*; npm run build; zip -r dist.zip dist"
   },
   "dependencies": {

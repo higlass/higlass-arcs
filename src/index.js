@@ -1,9 +1,9 @@
 import register from 'higlass-register';
 
-import GeoJsonTrack from './GeoJsonTrack';
+import Arcs1DTrack from './Arcs1DTrack';
 
 register({
-  name: 'GeoJsonTrack',
-  track: GeoJsonTrack,
-  config: GeoJsonTrack.config,
+  name: 'Arcs1DTrack',
+  track: Arcs1DTrack,
+  config: Arcs1DTrack.config,
 });

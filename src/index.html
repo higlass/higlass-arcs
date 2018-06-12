@@ -5,8 +5,8 @@
 <meta name="author" content="Fritz Lekschas">
 <meta name="description" content="Display arcs along a 1D track">
 <meta name="keywords" content="HiGlass, Plugin Tracks, Arcs">
-<title>GeoJSON Track for HiGlass</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+<title>Arcs Track for HiGlass</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="hglib.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.2/react.min.js"></script>
@@ -24,37 +24,91 @@
 </body>
 <script src="hglib.js"></script>
 <script>
-const testViewConfig = {
-  editable: true,
-  zoomFixed: false,
-  trackSourceServers: ['http://higlass.io/api/v1'],
-  exportViewUrl: 'http://higlass.io/api/v1/viewconfs/',
-  views: [
-    {
-      initialXDomain: [-114.34492062432261, -103.1400637535123],
-      initialYDomain: [-46.99008821605368, -39.07861292139287],
-      tracks: {
-        top: [
-          {
-              server: 'http://localhost:4007/api/v1',
-              tilesetUid: 'id_arcs.0.0',
-              type: '1d-arcs'
-          },
-        ],
-      },
-      layout: {
-        w: 12,
-        h: 12,
-        x: 0,
-        y: 0,
-        moved: false,
-        static: false,
-      },
-    },
+const testViewConfig = 
+{
+  "editable": true,
+  "zoomFixed": false,
+  "trackSourceServers": [
+    "http://higlass.io/api/v1"
   ],
-  zoomLocks: { locksByViewUid: {}, locksDict: {} },
-  locationLocks: { locksByViewUid: {}, locksDict: {} },
-};
+  "exportViewUrl": "http://higlass.io/api/v1/viewconfs/",
+  "views": [
+    {
+      "initialXDomain": [
+        -592539.1580813306,
+        4844219.70033944
+      ],
+      "tracks": {
+        "top": [
+          {
+            "name": "Chromosome Axis",
+            "created": "2017-06-06T17:03:01.273116Z",
+            "server": "http://higlass.io/api/v1",
+            "tilesetUid": "N12wVGG9SPiTkk03yUayUw",
+            "uid": "csMBJTF2T8CImWAecOMdqw",
+            "type": "horizontal-chromosome-labels",
+            "options": {
+              "showMousePosition": false,
+              "mousePositionColor": "#999999"
+            },
+            "width": 20,
+            "height": 30,
+            "position": "top"
+          },
+          {
+            "server": "http://localhost:4007/api/v1",
+            "tilesetUid": "id_arcs",
+            "type": "1d-arcs",
+            "height": 100,
+            "position": "top",
+            "uid": "ADfw57XeQqqxf3hLEFI2Rg",
+            "name": "my cooler",
+            "options": {
+              "labelColor": "black",
+              "labelPosition": "hidden",
+              "trackBorderWidth": 0,
+              "trackBorderColor": "black",
+              "name": "my cooler"
+            },
+            "width": 652
+          }
+        ],
+        "center": [],
+        "left": [],
+        "right": [],
+        "bottom": [],
+        "whole": [],
+        "gallery": []
+      },
+      "layout": {
+        "w": 12,
+        "h": 12,
+        "x": 0,
+        "y": 0,
+        "i": "cEQviOh-RpmnKuWK1lHitQ",
+        "moved": false,
+        "static": false
+      },
+      "uid": "cEQviOh-RpmnKuWK1lHitQ",
+      "initialYDomain": [
+        -202309232.46210727,
+        -196608678.20345548
+      ]
+    }
+  ],
+  "zoomLocks": {
+    "locksByViewUid": {},
+    "locksDict": {}
+  },
+  "locationLocks": {
+    "locksByViewUid": {},
+    "locksDict": {}
+  },
+  "valueScaleLocks": {
+    "locksByViewUid": {},
+    "locksDict": {}
+  }
+}
 
 window.hglib.createHgComponent(
   document.getElementById('demo'),

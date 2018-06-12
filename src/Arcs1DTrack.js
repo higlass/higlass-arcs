@@ -5,7 +5,7 @@ const Arcs1DTrack = (HGC, ...args) => {
     );
   }
 
-  class Arcs1DTrackClass extends HGC.tracks.TiledPixiTrack {
+  class Arcs1DTrackClass extends HGC.tracks.HorizontalLine1DPixiTrack {
     constructor(
       scene, trackConfig, dataConfig, handleTilesetInfoReceived, animate,
     ) {
@@ -18,11 +18,67 @@ const Arcs1DTrack = (HGC, ...args) => {
       );
     }
 
+    initTile(tile) {
+      console.log('initializing tile:', tile);
+    }
+
+    renderTile(tile) {
+      console.log('rendering tile', tile);
+    }
+
+    draw() {
+      for (const tile of this.visibleAndFetchedTiles()) {
+        tile.graphics.clear();
+        const tilePos = tile.tileData.tilePos[0];
+        const items = tile.tileData[tilePos];
+        console.log('items:', items);
+
+        for (let i = 0; i < 3; i++) {
+          const item = items[i];
+          const x1 = this._xScale(item.xStart);
+          const x2 = this._xScale(item.xEnd);
+
+          tile.graphics.beginFill(0xff0000);
+          tile.graphics.lineStyle(1, 0xff0000, 1);
+
+          tile.graphics.moveTo(x1, this.position[1] + this.dimensions[1]);
+
+          const h = Math.min(this.dimensions[1], (x2 - x1) / 2);
+          const d = (x2 - x1) / 2;
+          const r = ((d * d) + (h * h)) / (2 * h);
+          const cx = (x1 + x2) / 2;
+          const cy = this.position[1];
+          const startAngle = Math.acos((x1 - cx) / r);
+          const endAngle = Math.acos((x2 - cx) / r);
+
+          console.log('this.position[1]:', this.position[1]);
+          console.log('cx:', cx, 'cy', cy);
+          console.log('startAngle:', startAngle);
+          console.log('endAngle:', endAngle);
+
+          console.log('h:', h, 'r:', r, 'd:', d);
+          console.log('x1', x1, 'x2', x2, x2 - x1);
+          /*
+          tile.graphics.arcTo((x1 + x2) / 2, this.position[1],
+            x2, this.position[1] + this.dimensions[1], r);
+          */
+          tile.graphics.arc(cx, cy, r, startAngle, endAngle);
+
+          // tile.graphics.drawRect(x1, this.position[0], 10, 10);
+        }
+
+        this.renderTile(tile);
+      }
+    }
+
+    getMouseOverHtml() {
+
+    }
+
     zoomed(newXScale, newYScale) {
       this.xScale(newXScale);
       this.yScale(newYScale);
 
-      console.log('zoomed');
       this.refreshTiles();
       this.draw();
     }

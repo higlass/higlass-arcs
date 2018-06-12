@@ -47,7 +47,7 @@ const Arcs1DTrack = (HGC, ...args) => {
           const d = (x2 - x1) / 2;
           const r = ((d * d) + (h * h)) / (2 * h);
           const cx = (x1 + x2) / 2;
-          const cy = this.position[1];
+          const cy = this.dimensions[1] - h + r;
           const startAngle = Math.acos((x1 - cx) / r);
           const endAngle = Math.acos((x2 - cx) / r);
 
@@ -62,7 +62,7 @@ const Arcs1DTrack = (HGC, ...args) => {
           tile.graphics.arcTo((x1 + x2) / 2, this.position[1],
             x2, this.position[1] + this.dimensions[1], r);
           */
-          tile.graphics.arc(cx, cy, r, startAngle, endAngle);
+          tile.graphics.arc(cx, cy, r, 0, Math.PI * 2);
 
           // tile.graphics.drawRect(x1, this.position[0], 10, 10);
         }

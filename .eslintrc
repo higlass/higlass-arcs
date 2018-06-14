@@ -23,6 +23,7 @@
     "no-param-reassign": ["error", { "props": false }],
     "no-underscore-dangle": 0,
     "no-unused-vars": 0,
+    "no-continue": 0,
     "function-paren-newline": ["error", "consistent"]
   }
 }

@@ -9,3 +9,5 @@ register({
   track: Arcs1DTrack,
   config: Arcs1DTrack.config,
 });
+
+console.log('window.higlassTracks', window.higlassTracks);

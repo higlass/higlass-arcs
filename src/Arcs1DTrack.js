@@ -1,4 +1,4 @@
-import { scaleLinear } from 'd3-scale';
+import { scaleLinear, scaleLog } from 'd3-scale';
 
 const Arcs1DTrack = (HGC, ...args) => {
   if (!new.target) {
@@ -25,7 +25,7 @@ const Arcs1DTrack = (HGC, ...args) => {
     }
 
     renderTile(tile) {
-      console.log('rendering tile', tile);
+
     }
 
     drawTile(tile) {
@@ -36,6 +36,7 @@ const Arcs1DTrack = (HGC, ...args) => {
         tile.graphics.clear();
         // console.log('items.length', items.length);
         // console.log('length:', items.length);
+        const opacityScale = scaleLog().domain([1, 1000]).range([1, 0.1]);
 
         for (let i = 0; i < items.length; i++) {
           const item = items[i];
@@ -43,7 +44,6 @@ const Arcs1DTrack = (HGC, ...args) => {
           const x2 = this._xScale(item.yEnd);
 
           // tile.graphics.beginFill(0xff0000);
-          tile.graphics.lineStyle(1, 0xff0000, 1);
 
           tile.graphics.moveTo(x1, this.position[1] + this.dimensions[1]);
 
@@ -58,6 +58,10 @@ const Arcs1DTrack = (HGC, ...args) => {
           const limitX2 = Math.min(this.dimensions[0], x2);
 
 
+          const opacity = opacityScale(h);
+          // const opacity = 1;
+          // console.log('opacity', opacity);
+          tile.graphics.lineStyle(2, 0xff0000, opacity);
           const startAngle = Math.acos(Math.min(Math.max(-(limitX1 - cx) / r, -1), 1));
           const endAngle = Math.acos(Math.min(Math.max(-(limitX2 - cx) / r, -1), 1));
 

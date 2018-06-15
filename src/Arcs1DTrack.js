@@ -25,86 +25,61 @@ const Arcs1DTrack = (HGC, ...args) => {
     }
 
     renderTile(tile) {
-      // console.log('rendering tile', tile);
+      console.log('rendering tile', tile);
     }
 
-    draw() {
-      for (const tile of this.visibleAndFetchedTiles()) {
-        const tilePos = tile.tileData.tilePos[0];
-        const items = tile.tileData[tilePos];
+    drawTile(tile) {
+      const tilePos = tile.tileData.tilePos[0];
+      const items = tile.tileData[tilePos];
 
-        if (items) {
-          tile.graphics.clear();
-          // console.log('items.length', items.length);
-          // console.log('length:', items.length);
+      if (items) {
+        tile.graphics.clear();
+        // console.log('items.length', items.length);
+        // console.log('length:', items.length);
 
-          for (let i = 0; i < items.length; i++) {
-            const item = items[i];
-            const x1 = this._xScale(item.xStart);
-            const x2 = this._xScale(item.yEnd);
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          const x1 = this._xScale(item.xStart);
+          const x2 = this._xScale(item.yEnd);
 
-            // tile.graphics.beginFill(0xff0000);
-            tile.graphics.lineStyle(1, 0xff0000, 1);
+          // tile.graphics.beginFill(0xff0000);
+          tile.graphics.lineStyle(1, 0xff0000, 1);
 
-            tile.graphics.moveTo(x1, this.position[1] + this.dimensions[1]);
+          tile.graphics.moveTo(x1, this.position[1] + this.dimensions[1]);
 
-            // const h = Math.min(this.dimensions[1], (x2 - x1) / 2);
-            const h = (x2 - x1) / 2;
-            const d = (x2 - x1) / 2;
-            const r = ((d * d) + (h * h)) / (2 * h);
-            const cx = (x1 + x2) / 2;
-            const cy = this.dimensions[1] - h + r;
+          // const h = Math.min(this.dimensions[1], (x2 - x1) / 2);
+          const h = (x2 - x1) / 2;
+          const d = (x2 - x1) / 2;
+          const r = ((d * d) + (h * h)) / (2 * h);
+          const cx = (x1 + x2) / 2;
+          const cy = this.dimensions[1] - h + r;
 
-            const limitX1 = Math.max(0, x1);
-            const limitX2 = Math.min(this.dimensions[0], x2);
+          const limitX1 = Math.max(0, x1);
+          const limitX2 = Math.min(this.dimensions[0], x2);
 
 
-            const startAngle = Math.acos(Math.min(Math.max(-(limitX1 - cx) / r, -1), 1));
-            const endAngle = Math.acos(Math.min(Math.max(-(limitX2 - cx) / r, -1), 1));
+          const startAngle = Math.acos(Math.min(Math.max(-(limitX1 - cx) / r, -1), 1));
+          const endAngle = Math.acos(Math.min(Math.max(-(limitX2 - cx) / r, -1), 1));
 
-            /*
-            if (r > 200) {
-              console.log('x1, x2', x1, x2);
-              console.log('limitX1', limitX1, limitX2);
-              console.log('startAngle', startAngle, 'endAngle:', endAngle);
-            }
-            */
+          const resolution = 10;
+          const angleScale = scaleLinear().domain([0, resolution - 1])
+            .range([startAngle, endAngle]);
 
-            /*
-            console.log('this.position[1]:', this.position[1]);
-            console.log('cx:', cx, 'cy', cy);
-            console.log('startAngle:', startAngle);
-            console.log('endAngle:', endAngle);
+          // console.log('r:', r);
+          for (let k = 0; k < resolution; k++) {
+            const ax = r * Math.cos(angleScale(k));
+            const ay = r * Math.sin(angleScale(k));
+            // console.log('as', angleScale(i), ax, ay);
 
-            console.log('h:', h, 'r:', r, 'd:', d);
-            console.log('x1', x1, 'x2', x2, x2 - x1);
-            */
-            /*
-            tile.graphics.arcTo((x1 + x2) / 2, this.position[1],
-              x2, this.position[1] + this.dimensions[1], r);
-            */
-            const resolution = 10;
-            const angleScale = scaleLinear().domain([0, resolution - 1])
-              .range([startAngle, endAngle]);
+            const rx = cx - ax;
+            const ry = cy - ay;
 
-            // console.log('r:', r);
-            for (let k = 0; k < resolution; k++) {
-              const ax = r * Math.cos(angleScale(k));
-              const ay = r * Math.sin(angleScale(k));
-              // console.log('as', angleScale(i), ax, ay);
-
-              const rx = cx - ax;
-              const ry = cy - ay;
-
-              // console.log('rx:', rx, 'ry', ry);
-              tile.graphics.lineTo(rx, ry);
-            }
-            // tile.graphics.arc(cx, cy, r, startAngle, endAngle);
-
-            // tile.graphics.drawRect(x1, this.position[0], 10, 10);
+            // console.log('rx:', rx, 'ry', ry);
+            tile.graphics.lineTo(rx, ry);
           }
+          // tile.graphics.arc(cx, cy, r, startAngle, endAngle);
 
-          this.renderTile(tile);
+          // tile.graphics.drawRect(x1, this.position[0], 10, 10);
         }
       }
     }

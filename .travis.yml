@@ -10,3 +10,22 @@ before_script:
 - npm install
 before_deploy:
 - npm run prerelease
+deploy:
+  - provider: releases
+    skip_cleanup: true
+    api_key:
+      secure: EcL4Y82eTuZ0Gp/C9YszJG9EYoWvsfO8yJRgpBeOxDu5Y/4jm4HdFDuqDxpIkNdSjzneq+Y9q2eyiaof6D1/XFNm4+CyQCo895rAj2KSto3epc/1KK/DhxaV/581eeqc753ipKuW8Doyyu4aZP1iVn7jLgkiENfKO0OtP4kBXi969gEwFv3tLRPpRPRgTqO+7hI92D+ajI+x/qkkE1cMVwRg68NJRIBm5PN3bGwKTyL9ccMOKMahGnTGbCfVjsL0yekz5WA4LZIZR/6WE1TjIylqhXGWpw2xxL7Ay9FMx3cX0sz3Q33d944+KgPEdveqoydbnZkkpqriJI7QRmp6wbNCjr5Gdsg7cZMtBFiwPa82Rek6K8mERcYU+/DzQZAiA4KuPcRffVhMyOP1DGiBvjlGzvQj/JQNpSeF97tAs/ZA+LuDbgSfK0poZoMHHe27pNroaPHlss0fpGPx57cMJ60qmov2cAvWlROzJH1Vza5K4WyWKy++qVTtNiuP9ejpoAWp97OP0njzh2NiOzbkyyP/Xqo1Acs32eExmHw+Ik17BQfYVvBgiYt8ISa9FNp8VnFMeM4EQyh+DT+8n4r+YXkMOdHLqkYTeogHyclycEAUzMPPB6EeiQ4Au9AcqGkoMpLazTduufb+sHhuBwleSSxYC/k//zUmaIiDzhf2jf8=
+    file: dist.zip
+    on:
+      repo: pkerpedjiev/higlass-arcs
+      tags: true
+      branch: master
+  - provider: npm
+    skip_cleanup: true
+    email: pkerpedjiev@gmail.com
+    api_key:
+      secure: I53yp6jfhaqZ+4Nm4h9VJU1raodoj7QXYuGSmZavqzHFSGtfYBbX5Wt4gmdOmLttGUjTId/+lwZGTeNjgPx0OWWuNWu73QI0Ox+0Yw6xcNXy/0Dw39igB0TNIpo7ZjnBDu6i4UqzWIGIcKJ42m/NWmCKMfrosq5/1GqE2M0eAkUQ4Cu5VdVef6koRm5wFgxaCv8UdD72iAqSzexb3zU1TlWVURSLhTAyiaPlhgVg+JchkMZWNdy4ERRXhRVHEIUsPJaKUKNTYCZjUPKMKIPr1U9Vhyo+ICpaaUPPBnchVeYWAWZWp9fXq+TUCdnl686PZytyXogUtNGLow7+yd0u33COJbfJLp+3gF4HhOlcM41BHvYHjfLPIA2OSC10tnPp2W5ioku3YK5syv4aRyY8RLxpG92BHJOPC1MW6old8a5okMJBEF18xrWLtVIVxjrwDveQr/NGUH2gm2NyOJhyJ2/SzL4r1pg/sFKq1S9mlAyWuQxEnbk59hZLUNh5ClB8kk7RlBYBbUsnq7h9WEHbPpjv1dMh3/tMuHxOnNwud5bvhHO3yWx+6j5D3pb12cf7dxDPiseoYLPFn+o967I9EnLitrFTXubtMvOmSqx/7kofAmmU1Ab4LG6XZ4sn/qfdtXXYuBqt8QlyR9Ol7eEooeJqJQZK1286vtmdkn8Svz0=
+    on:
+      branch: master
+      tags: true
+      repo: pkerpedjiev/higlass-arcs

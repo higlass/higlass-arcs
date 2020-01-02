@@ -11,21 +11,10 @@ before_script:
 before_deploy:
 - npm run prerelease
 deploy:
-  - provider: releases
-    skip_cleanup: true
-    api_key:
-      secure: EcL4Y82eTuZ0Gp/C9YszJG9EYoWvsfO8yJRgpBeOxDu5Y/4jm4HdFDuqDxpIkNdSjzneq+Y9q2eyiaof6D1/XFNm4+CyQCo895rAj2KSto3epc/1KK/DhxaV/581eeqc753ipKuW8Doyyu4aZP1iVn7jLgkiENfKO0OtP4kBXi969gEwFv3tLRPpRPRgTqO+7hI92D+ajI+x/qkkE1cMVwRg68NJRIBm5PN3bGwKTyL9ccMOKMahGnTGbCfVjsL0yekz5WA4LZIZR/6WE1TjIylqhXGWpw2xxL7Ay9FMx3cX0sz3Q33d944+KgPEdveqoydbnZkkpqriJI7QRmp6wbNCjr5Gdsg7cZMtBFiwPa82Rek6K8mERcYU+/DzQZAiA4KuPcRffVhMyOP1DGiBvjlGzvQj/JQNpSeF97tAs/ZA+LuDbgSfK0poZoMHHe27pNroaPHlss0fpGPx57cMJ60qmov2cAvWlROzJH1Vza5K4WyWKy++qVTtNiuP9ejpoAWp97OP0njzh2NiOzbkyyP/Xqo1Acs32eExmHw+Ik17BQfYVvBgiYt8ISa9FNp8VnFMeM4EQyh+DT+8n4r+YXkMOdHLqkYTeogHyclycEAUzMPPB6EeiQ4Au9AcqGkoMpLazTduufb+sHhuBwleSSxYC/k//zUmaIiDzhf2jf8=
-    file: dist.zip
-    on:
-      repo: pkerpedjiev/higlass-arcs
-      tags: true
-      branch: master
-  - provider: npm
-    skip_cleanup: true
-    email: pkerpedjiev@gmail.com
-    api_key:
-      secure: ST6QoAVKDaNDdq0yQwY+MkBeYnzyGAzH1XrAohx3N/9a7Ns8JfkSWRfbOhzLnFpzHdozCKo/fWWUO4JTr3f1M5GMn2o2gPwDt2l93OWRjIkr0g2VQJx6t6en/QxoihbkwZBFh1yhiqnvkehvSKrnMeGv2pMv9MbtMyOpxpHnTLY+6Kr7vGMbu5F3pDmz0huQZk72F9XehLADqxEJvLSj9lSZO3HsVjCADuBKpLf3zBJFBgeaB24PXOH1DmWAfpR3jkae6kpYhCcbWAbd30k/lF8Tr/utUNSdQvSoovb7iXg1erhahRglBuROQEhhFshYjbWGnOAyGbfcoRKBPtDIEI8b8+jeTz02ro+kSvIALZQKpg4id7kfdVXZFkTosp8WgCLZ8YoRaMoPLeSLBJy91P7v44Tf4K7A9f9wmUAtaCpETP9qjuCjRSZKwU7yoZ+mPqwMtRlWl1YSP5912q/982R+9HqWAviCgI84KuUwGIzA4maOLtH+wIAIU7ETJmSpHNwhUhdMyHO8wPoyNenzO+loZdn/Q09H/hv37nxSseH3oowq0zdYD6re+akzbH/k+WBO9lTnDFsCTaGNBcZWB6JzaIDCO/G3qE1ejTQ72OfaURlKw8nEmqDlcH6R7JhOgmZj7o3haNlAcLXCJNLs9lv7C6Bvx3qqKCo1nZeOL+Q=
-    on:
-      branch: master
-      tags: true
-      repo: pkerpedjiev/higlass-arcs
+  provider: npm
+  email: pkerpedjiev@gmail.com
+  api_key:
+    secure: EzkzvpaBYMrhK5y8CANRaaz18ZcC0i/fm+nu51YIrh1xvRSYEVEjj4MIUVdxgVRbZWLyypLLJJWys8aFYGUjVQ11ruWAf82cUaMNhoT1WoHmbNMXx9qN1gAkxauX9RwYTbv4OfDFRHf3kraIaj5gmIRhRbjwSRggDm3z/hxu6pyok58efu6egc+h4XqFfRuAp1BC53khRfh0aOBxHby0CvodfqOqKvg4yW3i8NzYZeN02SfvUkwG9FhvXQDiCKbrQAiOfoDCM6Gd99WLOgsQHZ+GMMcxifL01oDbP2sDh7ZlpXjnwwvJlLlo1gNQul8sAeoqLPbtkNDpfYeJF5vHUwrpx+fulU+CE9PNVH6RVadrh3AkA2hU/ENiDELfDeLKTWo50diszuPBtuFHlyxSI1cRGkmzE2J0jNOHeTD1PuQGpoliZjfMX8Qlnnhx17ywCUukFwhL5MgxVeeTudQ+y7FAWcaRtiiKgUhtSAkWky6duCyQ+rHy+/5BdfTYKAdyyYPJMJ2Dva17Oq71JROKI/keT3y65duYT8SSUCoquQd9GniejgFYAxbD4YNFzYETEzeYpDSu1v6pVbMCTR3lnU0n8z2PBIL5RUdWEU2AsmBogEeQP6Cqyt60GL76dThGNaIXuztF9+TVDNc3M0TNOqef02RXBWSD2cwlU3G49eo=
+  on:
+    tags: true
+    repo: higlass/higlass-arcs

@@ -9,11 +9,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="hglib.css">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.2/react.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/15.6.2/react-dom.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.6.2/pixi.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.32.0/react-bootstrap.min.js"></script>
-</head>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script crossorigin src="https://unpkg.com/pixi.js-legacy@5/dist/pixi-legacy.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.32.1/react-bootstrap.min.js"></script>
 <body >
   <div style="height: 50px" />
     <div
@@ -24,7 +23,7 @@
 </body>
 <script src="hglib.js"></script>
 <script>
-const testViewConfig = 
+const testViewConfig =
 {
   "editable": true,
   "zoomFixed": false,
@@ -43,8 +42,8 @@ const testViewConfig =
           {
             "name": "Gene Annotations (hg19)",
             "created": "2017-02-05T19:31:52.412319Z",
-            "server": "http://higlass.io/api/v1",
-            "tilesetUid": "OHJakQICQD6gTD7skx4EWA",
+            "server": "https://resgen.io/api/v1",
+            "tilesetUid": "PSDE4nKiQnif3BvjA1pHQw",
             "uid": "Clfpa6lyS7-8dVeOb_f0hA",
             "type": "horizontal-gene-annotations",
             "options": {
@@ -66,8 +65,8 @@ const testViewConfig =
           {
             "name": "Chromosome Axis",
             "created": "2017-06-06T17:03:01.273116Z",
-            "server": "http://higlass.io/api/v1",
-            "tilesetUid": "N12wVGG9SPiTkk03yUayUw",
+            "server": "https://resgen.io/api/v1",
+            "tilesetUid": "Pi9k2kPjTn-Cmzca_5LzJQ",
             "uid": "csMBJTF2T8CImWAecOMdqw",
             "type": "horizontal-chromosome-labels",
             "options": {
@@ -79,21 +78,20 @@ const testViewConfig =
             "position": "top"
           },
           {
-            "server": "http://localhost:4007/api/v1",
-            "tilesetUid": "id_arcs",
+            "server": "https://resgen.io/api/v1",
+            "tilesetUid": "D3QBgh1RSiSXUVijFJzCaQ",
             "type": "1d-arcs",
-            "height": 560,
+            "height": 200,
             "position": "top",
             "uid": "ADfw57XeQqqxf3hLEFI2Rg",
             "name": "my cooler",
             "options": {
               "labelColor": "black",
               "labelPosition": "hidden",
-              "trackBorderWidth": 0,
+              "trackBorderWidth": 1,
               "trackBorderColor": "black",
               "name": "my cooler"
             },
-            "width": 905
           }
         ],
         "center": [],
@@ -133,7 +131,7 @@ const testViewConfig =
   }
 }
 
-window.hglib.createHgComponent(
+window.hglib.viewer(
   document.getElementById('demo'),
   testViewConfig,
   { bounded: true },

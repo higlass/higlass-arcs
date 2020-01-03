@@ -8,18 +8,6 @@ const Arcs1DTrack = (HGC, ...args) => {
   }
 
   class Arcs1DTrackClass extends HGC.tracks.HorizontalLine1DPixiTrack {
-    constructor(
-      scene, trackConfig, dataConfig, handleTilesetInfoReceived, animate,
-    ) {
-      super(
-        scene,
-        dataConfig,
-        handleTilesetInfoReceived,
-        trackConfig.options,
-        animate,
-      );
-    }
-
     initTile(tile) {
       // console.log('initializing tile:', tile);
     }
@@ -29,8 +17,11 @@ const Arcs1DTrack = (HGC, ...args) => {
     }
 
     drawTile(tile) {
-      const tilePos = tile.tileData.tilePos[0];
-      const items = tile.tileData[tilePos];
+      // const tilePos = tile.tileData.tilePos[0];
+      const items = tile.tileData;
+
+      // console.log('items:', items);
+      // console.log('tile', tile);
 
       if (items) {
         tile.graphics.clear();
@@ -41,10 +32,9 @@ const Arcs1DTrack = (HGC, ...args) => {
         for (let i = 0; i < items.length; i++) {
           const item = items[i];
           const x1 = this._xScale(item.xStart);
-          const x2 = this._xScale(item.yEnd);
+          const x2 = this._xScale(item.xEnd);
 
           // tile.graphics.beginFill(0xff0000);
-
           tile.graphics.moveTo(x1, this.position[1] + this.dimensions[1]);
 
           // const h = Math.min(this.dimensions[1], (x2 - x1) / 2);
@@ -110,7 +100,7 @@ const icon = '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-r
 Arcs1DTrack.config = {
   type: '1d-arcs',
   datatype: ['arcs'],
-  orientation: '2d',
+  orientation: '1d',
   name: 'Arcs1D',
   thumbnail: new DOMParser().parseFromString(icon, 'text/xml').documentElement,
   availableOptions: [

@@ -11,10 +11,18 @@ before_script:
 before_deploy:
 - npm run prerelease
 deploy:
-  provider: npm
-  email: pkerpedjiev@gmail.com
-  api_key:
-    secure: EzkzvpaBYMrhK5y8CANRaaz18ZcC0i/fm+nu51YIrh1xvRSYEVEjj4MIUVdxgVRbZWLyypLLJJWys8aFYGUjVQ11ruWAf82cUaMNhoT1WoHmbNMXx9qN1gAkxauX9RwYTbv4OfDFRHf3kraIaj5gmIRhRbjwSRggDm3z/hxu6pyok58efu6egc+h4XqFfRuAp1BC53khRfh0aOBxHby0CvodfqOqKvg4yW3i8NzYZeN02SfvUkwG9FhvXQDiCKbrQAiOfoDCM6Gd99WLOgsQHZ+GMMcxifL01oDbP2sDh7ZlpXjnwwvJlLlo1gNQul8sAeoqLPbtkNDpfYeJF5vHUwrpx+fulU+CE9PNVH6RVadrh3AkA2hU/ENiDELfDeLKTWo50diszuPBtuFHlyxSI1cRGkmzE2J0jNOHeTD1PuQGpoliZjfMX8Qlnnhx17ywCUukFwhL5MgxVeeTudQ+y7FAWcaRtiiKgUhtSAkWky6duCyQ+rHy+/5BdfTYKAdyyYPJMJ2Dva17Oq71JROKI/keT3y65duYT8SSUCoquQd9GniejgFYAxbD4YNFzYETEzeYpDSu1v6pVbMCTR3lnU0n8z2PBIL5RUdWEU2AsmBogEeQP6Cqyt60GL76dThGNaIXuztF9+TVDNc3M0TNOqef02RXBWSD2cwlU3G49eo=
-  on:
-    tags: true
-    repo: higlass/higlass-arcs
+  - provider: npm
+    email: pkerpedjiev@gmail.com
+    api_key:
+      secure: EzkzvpaBYMrhK5y8CANRaaz18ZcC0i/fm+nu51YIrh1xvRSYEVEjj4MIUVdxgVRbZWLyypLLJJWys8aFYGUjVQ11ruWAf82cUaMNhoT1WoHmbNMXx9qN1gAkxauX9RwYTbv4OfDFRHf3kraIaj5gmIRhRbjwSRggDm3z/hxu6pyok58efu6egc+h4XqFfRuAp1BC53khRfh0aOBxHby0CvodfqOqKvg4yW3i8NzYZeN02SfvUkwG9FhvXQDiCKbrQAiOfoDCM6Gd99WLOgsQHZ+GMMcxifL01oDbP2sDh7ZlpXjnwwvJlLlo1gNQul8sAeoqLPbtkNDpfYeJF5vHUwrpx+fulU+CE9PNVH6RVadrh3AkA2hU/ENiDELfDeLKTWo50diszuPBtuFHlyxSI1cRGkmzE2J0jNOHeTD1PuQGpoliZjfMX8Qlnnhx17ywCUukFwhL5MgxVeeTudQ+y7FAWcaRtiiKgUhtSAkWky6duCyQ+rHy+/5BdfTYKAdyyYPJMJ2Dva17Oq71JROKI/keT3y65duYT8SSUCoquQd9GniejgFYAxbD4YNFzYETEzeYpDSu1v6pVbMCTR3lnU0n8z2PBIL5RUdWEU2AsmBogEeQP6Cqyt60GL76dThGNaIXuztF9+TVDNc3M0TNOqef02RXBWSD2cwlU3G49eo=
+    on:
+      tags: true
+      repo: higlass/higlass-arcs
+  - provider: releases
+    skip_cleanup: true
+    file: dist.zip
+    api_key:
+      secure: jcMKbj8vouiNRgbE9bzhlskQGXeuKjSpfeFZA+59k2S5gY/YEBZXD3LG8Kk72xj2VwihoVrhGxnb8qPWxPXfANTu3TBfDaqdmX8Oy9JhLlhv2cBhOqD5UgeU4pO01CrGzc7ObqOqJzxM3o/IhdnJxCnABMoD2701k2JDIkSU5o95pvtySLXdn8P84NoibxykPXhXEWOVrwfygqM8rZ1dzswCV5UvbbLK/GlXaJskqOnQ6bnFmaboF/9nfX+3wRfm7SY9nzm3M94IfAjqqQrcncv/qyhmUDXotdtDYRJJe5sdTXNyJL5eTnseJz6agkIkpKKcB3dFBWE+QVKOGbmqM45/MspEMYwn6UYLGAerHuBDGP5sJDYMnqvgOKoxlytPPxowEtOKjjtGD8XgCezofQpYxpPP/KwG1Myb+fCcVA0QwWKH+58JccsAh0KSzAksxKcIHo+zoelEH75J9SHdorhcOk/54xvDJf5p13Ome+yq4sRSKwLx6LuPHJM92VnKVrjBlThhbnKdgx0jWzYhpiQX5kG6IQEApEW2hPbod6RWyBuXSsnhHPkywfELiskcVo3daJXKkQBUeGi0DBA9xQ58fSdtj/adwriLjWCAzp7AZ8yVR8BcSfC8EcrZHgmGAAyn3NNuXEV+eAQqqtR1E791Wdx9dfntjNW0MyFP2qM=
+    on:
+      tags: true
+      branch: master

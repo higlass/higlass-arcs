@@ -1,13 +1,13 @@
-# GeoJSON Track for HiGlass
+# Arcs Track for HiGlass
 
-> Display your favorite GeoJSON annotation right in HiGlass.
+> Display connections between non-adjacent regions.
 
 [![HiGlass](https://img.shields.io/badge/higlass-👍-red.svg?colorB=0f5d92)](http://higlass.io)
-[![Build Status](https://img.shields.io/travis/flekschas/higlass-geojson/master.svg?colorB=0f5d92)](https://travis-ci.org/flekschas/higlass-geojson)
+[![Build Status](https://img.shields.io/travis/higlass/higlass-arcs/master.svg?colorB=0f5d92)](https://travis-ci.org/higlass/higlass-arcs)
 
-![HiGlass showing ski areas with Mapbox](/teaser.jpg?raw=true "Ski areas around Park City shown with Mapbox")
+![Screenshot of the arcs track](https://user-images.githubusercontent.com/2143629/71704745-0bd15f00-2d91-11ea-99d3-4bad11dec7de.png "An example of the arcs track")
 
-**Note**: This is the source code for the GeoJSON track only! You might want to check out the following repositories as well:
+**Note**: This is the source code for the arcs track only! You might want to check out the following repositories as well:
 
 - HiGlass viewer: https://github.com/hms-dbmi/higlass
 - HiGlass server: https://github.com/hms-dbmi/higlass-server
@@ -16,7 +16,7 @@
 ## Installation
 
 ```
-npm install higlass-geojson
+npm install higlass-arcs
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ npm install higlass-geojson
 1. Make sure you load this track prior to `hglib.js`. For example:
 
 ```
-<script src="higlass-geojson.js"></script>
+<script src="higlass-arcs.js"></script>
 <script src="hglib.js"></script>
 <script>
   ...
@@ -38,22 +38,15 @@ npm install higlass-geojson
   ...
   {
     server: 'http://localhost:8001/api/v1',
-    tilesetUid: 'my-outrageously-fancy-geojson-db',
-    uid: 'my-outrageously-fancy-geojson-db',
-    type: 'geo-json',
+    tilesetUid: 'my-aggregated-bedfile.beddb',
+    uid: 'some-uid',
+    type: '1d-arcs',
     options: {
       labelColor: 'red',
       labelPosition: 'hidden',
       trackBorderWidth: 0,
-      trackBorderColor: 'red',
-      rectangleDomainFillColor: 'red',
-      rectangleDomainFillOpacity: 0.25,
-      rectangleDomainStrokeColor: 'red',
-      rectangleDomainOpacity: 1,
-      rectanlgeMinSize: 3,
-      minSquareSize: 4,
-      polygonMinBoundingSize: 5,
-      name: 'My Outrageously Fancy GeoJSON Stuff - Truly Awesome',
+      trackBorderColor: 'black',
+      name: 'Arcs for me and you!',
     },
   },
   ...
@@ -67,7 +60,7 @@ Take a look at [`src/index.html`](src/index.html) for an example.
 ### Installation
 
 ```bash
-$ git clone https://github.com/flekschas/higlass-geojson && higlass-geojson
+$ git clone https://github.com/higlass/higlass-arcs && higlass-arcs
 $ npm install
 ```
 

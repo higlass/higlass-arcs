@@ -19,7 +19,7 @@
     "url": "git://github.com/pkerpedjiev/higlass-arcs.git"
   },
   "main": "src/index.js",
-  "unpkg": "higlass-arcs.min.js",
+  "unpkg": "dist/higlass-arcs.min.js",
   "files": [
     "dist"
   ],

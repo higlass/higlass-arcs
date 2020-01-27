@@ -99,7 +99,7 @@ const icon = '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-r
 
 Arcs1DTrack.config = {
   type: '1d-arcs',
-  datatype: ['arcs'],
+  datatype: ['arcs', 'bedlike'],
   orientation: '1d',
   name: 'Arcs1D',
   thumbnail: new DOMParser().parseFromString(icon, 'text/xml').documentElement,

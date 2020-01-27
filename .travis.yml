@@ -13,6 +13,7 @@ before_deploy:
 deploy:
   - provider: npm
     skip_cleanup: true
+    edge: true
     email: pkerpedjiev@gmail.com
     api_key:
       secure: EzkzvpaBYMrhK5y8CANRaaz18ZcC0i/fm+nu51YIrh1xvRSYEVEjj4MIUVdxgVRbZWLyypLLJJWys8aFYGUjVQ11ruWAf82cUaMNhoT1WoHmbNMXx9qN1gAkxauX9RwYTbv4OfDFRHf3kraIaj5gmIRhRbjwSRggDm3z/hxu6pyok58efu6egc+h4XqFfRuAp1BC53khRfh0aOBxHby0CvodfqOqKvg4yW3i8NzYZeN02SfvUkwG9FhvXQDiCKbrQAiOfoDCM6Gd99WLOgsQHZ+GMMcxifL01oDbP2sDh7ZlpXjnwwvJlLlo1gNQul8sAeoqLPbtkNDpfYeJF5vHUwrpx+fulU+CE9PNVH6RVadrh3AkA2hU/ENiDELfDeLKTWo50diszuPBtuFHlyxSI1cRGkmzE2J0jNOHeTD1PuQGpoliZjfMX8Qlnnhx17ywCUukFwhL5MgxVeeTudQ+y7FAWcaRtiiKgUhtSAkWky6duCyQ+rHy+/5BdfTYKAdyyYPJMJ2Dva17Oq71JROKI/keT3y65duYT8SSUCoquQd9GniejgFYAxbD4YNFzYETEzeYpDSu1v6pVbMCTR3lnU0n8z2PBIL5RUdWEU2AsmBogEeQP6Cqyt60GL76dThGNaIXuztF9+TVDNc3M0TNOqef02RXBWSD2cwlU3G49eo=
@@ -20,6 +21,7 @@ deploy:
       tags: true
       repo: higlass/higlass-arcs
   - provider: releases
+    edge: true
     skip_cleanup: true
     file: dist.zip
     api_key:

@@ -26,95 +26,140 @@
 const testViewConfig =
 {
   "editable": true,
-  "zoomFixed": false,
   "trackSourceServers": [
+    "/api/v1",
     "http://higlass.io/api/v1"
   ],
-  "exportViewUrl": "http://higlass.io/api/v1/viewconfs/",
+  "exportViewUrl": "/api/v1/viewconfs",
   "views": [
     {
       "initialXDomain": [
-        2318757609.2643676,
-        3316654428.1095753
+        623982621.143515,
+        633817588.2350572
+      ],
+      "initialYDomain": [
+        -1069420167.0899818,
+        -1058939661.6179136
       ],
       "tracks": {
         "top": [
           {
-            "name": "Gene Annotations (hg19)",
-            "created": "2017-02-05T19:31:52.412319Z",
-            "server": "https://resgen.io/api/v1",
-            "tilesetUid": "PSDE4nKiQnif3BvjA1pHQw",
-            "uid": "Clfpa6lyS7-8dVeOb_f0hA",
-            "type": "horizontal-gene-annotations",
+            "type": "bedlike",
+            "uid": "Pj9tC1nWRVWhHMtrQCyP5w",
+            "tilesetUid": "FFalJ_VEQteAnak2Z2792A",
+            "server": "http://localhost:8000/api/v1",
             "options": {
+              "alternating": false,
+              "annotationStyle": "box",
+              "fillColor": "blue",
+              "axisPositionHorizontal": "right",
               "labelColor": "black",
               "labelPosition": "hidden",
-              "plusStrandColor": "blue",
-              "minusStrandColor": "red",
+              "labelLeftMargin": 0,
+              "labelRightMargin": 0,
+              "labelTopMargin": 0,
+              "labelBottomMargin": 0,
+              "minHeight": 20,
               "trackBorderWidth": 0,
               "trackBorderColor": "black",
-              "showMousePosition": false,
-              "mousePositionColor": "#999999",
-              "name": "Gene Annotations (hg19)"
+              "valueColumn": null,
+              "colorEncoding": false,
+              "showTexts": false,
+              "colorRange": [
+                "#000000",
+                "#652537",
+                "#bf5458",
+                "#fba273",
+                "#ffffe0"
+              ],
+              "colorEncodingRange": false,
+              "annotationHeight": 16,
+              "name": "Olig2.5k_interactions_ucsc_genome_browser.inter.bb"
             },
             "width": 20,
-            "height": 55,
-            "header": "",
-            "position": "top"
+            "height": 20,
+            "aggregationModes": {
+              "mean": {
+                "name": "Mean",
+                "value": "mean"
+              },
+              "min": {
+                "name": "Min",
+                "value": "min"
+              },
+              "max": {
+                "name": "Max",
+                "value": "max"
+              },
+              "std": {
+                "name": "Standard Deviation",
+                "value": "std"
+              }
+            }
           },
           {
-            "name": "Chromosome Axis",
-            "created": "2017-06-06T17:03:01.273116Z",
-            "server": "https://resgen.io/api/v1",
-            "tilesetUid": "Pi9k2kPjTn-Cmzca_5LzJQ",
-            "uid": "csMBJTF2T8CImWAecOMdqw",
-            "type": "horizontal-chromosome-labels",
-            "options": {
-              "showMousePosition": false,
-              "mousePositionColor": "#999999"
-            },
-            "width": 738,
-            "height": 30,
-            "position": "top"
-          },
-          {
-            "server": "https://resgen.io/api/v1",
-            "tilesetUid": "D3QBgh1RSiSXUVijFJzCaQ",
             "type": "1d-arcs",
-            "height": 200,
-            "position": "top",
-            "uid": "ADfw57XeQqqxf3hLEFI2Rg",
-            "name": "my cooler",
+            "uid": "DxJO07NJTqujfrrnCsRsbw",
+            "tilesetUid": "FFalJ_VEQteAnak2Z2792A",
+            "server": "http://localhost:8000/api/v1",
             "options": {
               "labelColor": "black",
               "labelPosition": "hidden",
-              "trackBorderWidth": 1,
-              "trackBorderColor": "black",
-              "name": "my cooler"
+              "trackBorderWidth": 0,
+              "trackBorderColor": "black"
             },
+            "width": 259,
+            "height": 60,
+            "aggregationModes": {
+              "mean": {
+                "name": "Mean",
+                "value": "mean"
+              },
+              "min": {
+                "name": "Min",
+                "value": "min"
+              },
+              "max": {
+                "name": "Max",
+                "value": "max"
+              },
+              "std": {
+                "name": "Standard Deviation",
+                "value": "std"
+              }
+            }
+          },
+          {
+            "type": "horizontal-chromosome-labels",
+            "uid": "cQDkahXzRvCWeQZ-M0OB0A",
+            "tilesetUid": "QJr05EUnRy6Nvl8I8zS68Q",
+            "server": "http://localhost:8000/api/v1",
+            "options": {
+              "color": "#808080",
+              "stroke": "#ffffff",
+              "fontSize": 12,
+              "fontIsLeftAligned": false,
+              "showMousePosition": false,
+              "mousePositionColor": "#000000"
+            },
+            "width": 259,
+            "height": 30
           }
         ],
-        "center": [],
         "left": [],
-        "right": [],
+        "center": [],
         "bottom": [],
+        "right": [],
         "whole": [],
         "gallery": []
       },
       "layout": {
         "w": 12,
-        "h": 12,
+        "h": 6,
         "x": 0,
-        "y": 0,
-        "i": "cEQviOh-RpmnKuWK1lHitQ",
-        "moved": false,
-        "static": false
+        "y": 0
       },
-      "uid": "cEQviOh-RpmnKuWK1lHitQ",
-      "initialYDomain": [
-        3482379044.988949,
-        4116401885.6917057
-      ]
+      "uid": "FaWeCwRvSwar7VYMnC4lQA"
     }
   ],
   "zoomLocks": {

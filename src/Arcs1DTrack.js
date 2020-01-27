@@ -16,12 +16,127 @@ const Arcs1DTrack = (HGC, ...args) => {
 
     }
 
+    maxWidth() {
+      let maxWidth = 0;
+
+      for (const tile of Object.values(this.fetchedTiles)) {
+        for (const item of tile.tileData) {
+          maxWidth = Math.max(
+            maxWidth,
+            item.fields[2] - item.fields[1],
+          );
+        }
+      }
+
+      return maxWidth;
+    }
+
+    drawCircle(graphics, item, opacityScale) {
+      const x1 = this._xScale(item.chrOffset + item.fields[1]);
+      const x2 = this._xScale(item.chrOffset + item.fields[2]);
+
+      // tile.graphics.beginFill(0xff0000);
+      graphics.moveTo(x1, this.position[1] + this.dimensions[1]);
+
+      // const h = Math.min(this.dimensions[1], (x2 - x1) / 2);
+      const h = (x2 - x1) / 2;
+      // const h = this.dimensions[1];
+      const d = (x2 - x1) / 2;
+      const r = ((d * d) + (h * h)) / (2 * h);
+      const cx = (x1 + x2) / 2;
+      const cy = this.dimensions[1] - h + r;
+
+      const limitX1 = Math.max(0, x1);
+      const limitX2 = Math.min(this.dimensions[0], x2);
+
+
+      const opacity = opacityScale(h);
+      // const opacity = 1;
+      // console.log('opacity', opacity);
+      graphics.lineStyle(this.strokeWidth, this.strokeColor, opacity);
+      const startAngle = Math.acos(Math.min(Math.max(-(limitX1 - cx) / r, -1), 1));
+      const endAngle = Math.acos(Math.min(Math.max(-(limitX2 - cx) / r, -1), 1));
+      // const startAngle = 0;
+      // const endAngle = 2 * Math.PI;
+
+      const resolution = 10;
+      const angleScale = scaleLinear().domain([0, resolution - 1])
+        .range([startAngle, endAngle]);
+
+      // console.log('r:', r);
+      for (let k = 0; k < resolution; k++) {
+        const ax = r * Math.cos(angleScale(k));
+        const ay = r * Math.sin(angleScale(k));
+        // console.log('as', angleScale(i), ax, ay);
+
+        const rx = cx - ax;
+        const ry = cy - ay;
+
+        // console.log('rx:', rx, 'ry', ry);
+        graphics.lineTo(rx, ry);
+      }
+    }
+
+    drawEllipse(graphics, item, heightScale, opacityScale) {
+      const x1 = this._xScale(item.chrOffset + item.fields[1]);
+      const x2 = this._xScale(item.chrOffset + item.fields[2]);
+
+      // tile.graphics.beginFill(0xff0000);
+      graphics.moveTo(x1, this.position[1] + this.dimensions[1]);
+
+      // const h = Math.min(this.dimensions[1], (x2 - x1) / 2);
+      const h = heightScale(item.fields[2] - item.fields[1]);
+      // const h = this.dimensions[1];
+      const d = (x2 - x1) / 2;
+      // const r = ((d * d) + (h * h)) / (2 * h);
+      const r = d / 2;
+      const cx = (x1 + x2) / 2;
+      const cy = this.dimensions[1];
+
+      const limitX1 = Math.max(0, x1);
+      const limitX2 = Math.min(this.dimensions[0], x2);
+
+
+      const opacity = opacityScale(h);
+      // const opacity = 1;
+      // console.log('opacity', opacity);
+      graphics.lineStyle(this.strokeWidth, this.strokeColor, opacity);
+      // const startAngle = Math.acos(Math.min(Math.max(-(limitX1 - cx) / r, -1), 1));
+      // const endAngle = Math.acos(Math.min(Math.max(-(limitX2 - cx) / r, -1), 1));
+      const startAngle = 0;
+      const endAngle = Math.PI;
+
+      const resolution = 10;
+      const angleScale = scaleLinear().domain([0, resolution - 1])
+        .range([startAngle, endAngle]);
+
+      // console.log('r:', r);
+      for (let k = 0; k < resolution; k++) {
+        const ax = r * Math.cos(angleScale(k));
+        const ay = h * Math.sin(angleScale(k));
+        // console.log('as', angleScale(i), ax, ay);
+
+        const rx = cx - ax;
+        const ry = cy - ay;
+
+        // console.log('rx:', rx, 'ry', ry);
+        graphics.lineTo(rx, ry);
+      }
+    }
+
     drawTile(tile) {
       // const tilePos = tile.tileData.tilePos[0];
       const items = tile.tileData;
 
-      // console.log('items:', items);
-      // console.log('tile', tile);
+      const maxWidth = this.maxWidth();
+      const heightScale = scaleLinear()
+        .domain([0, maxWidth])
+        .range([this.dimensions[1] / 4, 3 * this.dimensions[1] / 4]);
+
+      this.strokeColor = HGC.utils.colorToHex(
+        this.options.strokeColor ? this.options.strokeColor : 'blue',
+      );
+      this.strokeWidth = 2;
 
       if (items) {
         tile.graphics.clear();
@@ -31,45 +146,10 @@ const Arcs1DTrack = (HGC, ...args) => {
 
         for (let i = 0; i < items.length; i++) {
           const item = items[i];
-          const x1 = this._xScale(item.xStart);
-          const x2 = this._xScale(item.xEnd);
-
-          // tile.graphics.beginFill(0xff0000);
-          tile.graphics.moveTo(x1, this.position[1] + this.dimensions[1]);
-
-          // const h = Math.min(this.dimensions[1], (x2 - x1) / 2);
-          const h = (x2 - x1) / 2;
-          const d = (x2 - x1) / 2;
-          const r = ((d * d) + (h * h)) / (2 * h);
-          const cx = (x1 + x2) / 2;
-          const cy = this.dimensions[1] - h + r;
-
-          const limitX1 = Math.max(0, x1);
-          const limitX2 = Math.min(this.dimensions[0], x2);
-
-
-          const opacity = opacityScale(h);
-          // const opacity = 1;
-          // console.log('opacity', opacity);
-          tile.graphics.lineStyle(2, 0xff0000, opacity);
-          const startAngle = Math.acos(Math.min(Math.max(-(limitX1 - cx) / r, -1), 1));
-          const endAngle = Math.acos(Math.min(Math.max(-(limitX2 - cx) / r, -1), 1));
-
-          const resolution = 10;
-          const angleScale = scaleLinear().domain([0, resolution - 1])
-            .range([startAngle, endAngle]);
-
-          // console.log('r:', r);
-          for (let k = 0; k < resolution; k++) {
-            const ax = r * Math.cos(angleScale(k));
-            const ay = r * Math.sin(angleScale(k));
-            // console.log('as', angleScale(i), ax, ay);
-
-            const rx = cx - ax;
-            const ry = cy - ay;
-
-            // console.log('rx:', rx, 'ry', ry);
-            tile.graphics.lineTo(rx, ry);
+          if (this.options.arcStyle === 'circle') {
+            this.drawCircle(tile.graphics, item, opacityScale);
+          } else {
+            this.drawEllipse(tile.graphics, item, heightScale, opacityScale);
           }
           // tile.graphics.arc(cx, cy, r, startAngle, endAngle);
 
@@ -104,16 +184,20 @@ Arcs1DTrack.config = {
   name: 'Arcs1D',
   thumbnail: new DOMParser().parseFromString(icon, 'text/xml').documentElement,
   availableOptions: [
+    'arcStyle',
     'labelPosition',
     'labelColor',
     'labelTextOpacity',
     'labelBackgroundOpacity',
+    'strokeColor',
     'trackBorderWidth',
     'trackBorderColor',
   ],
   defaultOptions: {
+    arcStyle: 'ellipse',
     labelColor: 'black',
     labelPosition: 'hidden',
+    strokeColor: 'black',
     trackBorderWidth: 0,
     trackBorderColor: 'black',
   },

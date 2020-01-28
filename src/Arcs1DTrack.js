@@ -35,16 +35,16 @@ const Arcs1DTrack = (HGC, ...args) => {
       const x1 = this._xScale(item.chrOffset + item.fields[1]);
       const x2 = this._xScale(item.chrOffset + item.fields[2]);
 
-      // tile.graphics.beginFill(0xff0000);
-      graphics.moveTo(x1, this.position[1] + this.dimensions[1]);
-
       // const h = Math.min(this.dimensions[1], (x2 - x1) / 2);
       const h = (x2 - x1) / 2;
       // const h = this.dimensions[1];
       const d = (x2 - x1) / 2;
       const r = ((d * d) + (h * h)) / (2 * h);
       const cx = (x1 + x2) / 2;
-      const cy = this.dimensions[1] - h + r;
+      let cy = this.dimensions[1] - h + r;
+
+      // tile.graphics.beginFill(0xff0000);
+      graphics.moveTo(x1, this.position[1] + this.dimensions[1]);
 
       const limitX1 = Math.max(0, x1);
       const limitX2 = Math.min(this.dimensions[0], x2);
@@ -55,9 +55,15 @@ const Arcs1DTrack = (HGC, ...args) => {
       // console.log('opacity', opacity);
       graphics.lineStyle(this.strokeWidth, this.strokeColor, opacity);
       const startAngle = Math.acos(Math.min(Math.max(-(limitX1 - cx) / r, -1), 1));
-      const endAngle = Math.acos(Math.min(Math.max(-(limitX2 - cx) / r, -1), 1));
+      let endAngle = Math.acos(Math.min(Math.max(-(limitX2 - cx) / r, -1), 1));
       // const startAngle = 0;
       // const endAngle = 2 * Math.PI;
+
+      if (this.flip) {
+        cy = 0;
+        endAngle = -Math.PI;
+        graphics.moveTo(x1, 0);
+      }
 
       const resolution = 10;
       const angleScale = scaleLinear().domain([0, resolution - 1])
@@ -81,45 +87,36 @@ const Arcs1DTrack = (HGC, ...args) => {
       const x1 = this._xScale(item.chrOffset + item.fields[1]);
       const x2 = this._xScale(item.chrOffset + item.fields[2]);
 
-      // tile.graphics.beginFill(0xff0000);
-      graphics.moveTo(x1, this.position[1] + this.dimensions[1]);
-
-      // const h = Math.min(this.dimensions[1], (x2 - x1) / 2);
       const h = heightScale(item.fields[2] - item.fields[1]);
-      // const h = this.dimensions[1];
-      const d = (x2 - x1) / 2;
-      // const r = ((d * d) + (h * h)) / (2 * h);
-      const r = d / 2;
+      const r = (x2 - x1) / 2;
+
       const cx = (x1 + x2) / 2;
-      const cy = this.dimensions[1];
+      let cy = this.dimensions[1];
+      const startAngle = 0;
+      let endAngle = Math.PI;
 
-      const limitX1 = Math.max(0, x1);
-      const limitX2 = Math.min(this.dimensions[0], x2);
+      graphics.moveTo(x1, this.dimensions[1]);
 
+      if (this.flip) {
+        cy = 0;
+        endAngle = -Math.PI;
+        graphics.moveTo(x1, 0);
+      }
 
       const opacity = opacityScale(h);
-      // const opacity = 1;
-      // console.log('opacity', opacity);
       graphics.lineStyle(this.strokeWidth, this.strokeColor, opacity);
-      // const startAngle = Math.acos(Math.min(Math.max(-(limitX1 - cx) / r, -1), 1));
-      // const endAngle = Math.acos(Math.min(Math.max(-(limitX2 - cx) / r, -1), 1));
-      const startAngle = 0;
-      const endAngle = Math.PI;
 
       const resolution = 10;
       const angleScale = scaleLinear().domain([0, resolution - 1])
         .range([startAngle, endAngle]);
 
-      // console.log('r:', r);
       for (let k = 0; k < resolution; k++) {
         const ax = r * Math.cos(angleScale(k));
         const ay = h * Math.sin(angleScale(k));
-        // console.log('as', angleScale(i), ax, ay);
 
         const rx = cx - ax;
         const ry = cy - ay;
 
-        // console.log('rx:', rx, 'ry', ry);
         graphics.lineTo(rx, ry);
       }
     }
@@ -136,8 +133,12 @@ const Arcs1DTrack = (HGC, ...args) => {
       this.strokeColor = HGC.utils.colorToHex(
         this.options.strokeColor ? this.options.strokeColor : 'blue',
       );
-      this.strokeWidth = 2;
+      this.strokeWidth = this.options.strokeWidth ? this.options.strokeWidth : 2;
 
+      this.flip = false;
+      if (this.options.flip1D) {
+        this.flip = this.options.flip1D === 'yes';
+      }
       if (items) {
         tile.graphics.clear();
         // console.log('items.length', items.length);
@@ -185,19 +186,23 @@ Arcs1DTrack.config = {
   thumbnail: new DOMParser().parseFromString(icon, 'text/xml').documentElement,
   availableOptions: [
     'arcStyle',
+    'flip1D',
     'labelPosition',
     'labelColor',
     'labelTextOpacity',
     'labelBackgroundOpacity',
     'strokeColor',
+    'strokeWidth',
     'trackBorderWidth',
     'trackBorderColor',
   ],
   defaultOptions: {
     arcStyle: 'ellipse',
+    flip1D: 'no',
     labelColor: 'black',
     labelPosition: 'hidden',
     strokeColor: 'black',
+    strokeWidth: 1,
     trackBorderWidth: 0,
     trackBorderColor: 'black',
   },

@@ -9,7 +9,7 @@ const Arcs1DTrack = (HGC, ...args) => {
 
   class Arcs1DTrackClass extends HGC.tracks.HorizontalLine1DPixiTrack {
     initTile(tile) {
-      // console.log('initializing tile:', tile);
+
     }
 
     renderTile(tile) {
@@ -51,8 +51,6 @@ const Arcs1DTrack = (HGC, ...args) => {
 
 
       const opacity = opacityScale(h);
-      // const opacity = 1;
-      // console.log('opacity', opacity);
       graphics.lineStyle(this.strokeWidth, this.strokeColor, opacity);
       const startAngle = Math.acos(Math.min(Math.max(-(limitX1 - cx) / r, -1), 1));
       let endAngle = Math.acos(Math.min(Math.max(-(limitX2 - cx) / r, -1), 1));
@@ -69,25 +67,22 @@ const Arcs1DTrack = (HGC, ...args) => {
       const angleScale = scaleLinear().domain([0, resolution - 1])
         .range([startAngle, endAngle]);
 
-      // console.log('r:', r);
       for (let k = 0; k < resolution; k++) {
         const ax = r * Math.cos(angleScale(k));
         const ay = r * Math.sin(angleScale(k));
-        // console.log('as', angleScale(i), ax, ay);
 
         const rx = cx - ax;
         const ry = cy - ay;
 
-        // console.log('rx:', rx, 'ry', ry);
         graphics.lineTo(rx, ry);
       }
     }
 
     drawEllipse(graphics, item, heightScale, opacityScale) {
-      const x1 = this._xScale(item.chrOffset + item.fields[1]);
-      const x2 = this._xScale(item.chrOffset + item.fields[2]);
+      const x1 = this._xScale(item.chrOffset + +item.fields[1]);
+      const x2 = this._xScale(item.chrOffset + +item.fields[2]);
 
-      const h = heightScale(item.fields[2] - item.fields[1]);
+      const h = heightScale(item.fields[2] - +item.fields[1]);
       const r = (x2 - x1) / 2;
 
       const cx = (x1 + x2) / 2;
@@ -141,12 +136,11 @@ const Arcs1DTrack = (HGC, ...args) => {
       }
       if (items) {
         tile.graphics.clear();
-        // console.log('items.length', items.length);
-        // console.log('length:', items.length);
         const opacityScale = scaleLog().domain([1, 1000]).range([1, 0.1]);
 
         for (let i = 0; i < items.length; i++) {
           const item = items[i];
+
           if (this.options.arcStyle === 'circle') {
             this.drawCircle(tile.graphics, item, opacityScale);
           } else {

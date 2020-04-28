@@ -31,7 +31,7 @@ const Arcs1DTrack = (HGC, ...args) => {
       return maxWidth;
     }
 
-    drawCircle(graphics, item, opacityScale) {
+    drawCircle(graphics, item, opacityScale, storePolyStr) {
       const x1 = this._xScale(item.chrOffset + item.fields[1]);
       const x2 = this._xScale(item.chrOffset + item.fields[2]);
 
@@ -44,6 +44,9 @@ const Arcs1DTrack = (HGC, ...args) => {
       let cy = this.dimensions[1] - h + r;
 
       // tile.graphics.beginFill(0xff0000);
+      let polyStr = '';
+
+      if (storePolyStr) polyStr += `M${x1},${this.position[1] + this.dimensions[1]}`;
       graphics.moveTo(x1, this.position[1] + this.dimensions[1]);
 
       const limitX1 = Math.max(0, x1);
@@ -56,11 +59,13 @@ const Arcs1DTrack = (HGC, ...args) => {
       let endAngle = Math.acos(Math.min(Math.max(-(limitX2 - cx) / r, -1), 1));
       // const startAngle = 0;
       // const endAngle = 2 * Math.PI;
+      //
 
       if (this.flip) {
         cy = 0;
         endAngle = -Math.PI;
         graphics.moveTo(x1, 0);
+        if (storePolyStr) polyStr += `M${x1},0`;
       }
 
       const resolution = 10;
@@ -75,10 +80,18 @@ const Arcs1DTrack = (HGC, ...args) => {
         const ry = cy - ay;
 
         graphics.lineTo(rx, ry);
+        if (storePolyStr) polyStr += `L${rx},${ry}`;
+      }
+
+      if (storePolyStr) {
+        this.polys.push({
+          polyStr,
+          opacity,
+        });
       }
     }
 
-    drawEllipse(graphics, item, heightScale, opacityScale) {
+    drawEllipse(graphics, item, heightScale, opacityScale, storePolyStr) {
       const x1 = this._xScale(item.chrOffset + +item.fields[1]);
       const x2 = this._xScale(item.chrOffset + +item.fields[2]);
 
@@ -90,12 +103,15 @@ const Arcs1DTrack = (HGC, ...args) => {
       const startAngle = 0;
       let endAngle = Math.PI;
 
+      let polyStr = '';
+      if (storePolyStr) polyStr += `M${x1},${this.dimensions[1]}`;
       graphics.moveTo(x1, this.dimensions[1]);
 
       if (this.flip) {
         cy = 0;
         endAngle = -Math.PI;
         graphics.moveTo(x1, 0);
+        if (storePolyStr) polyStr += `M${x1},0`;
       }
 
       const opacity = opacityScale(h);
@@ -113,10 +129,18 @@ const Arcs1DTrack = (HGC, ...args) => {
         const ry = cy - ay;
 
         graphics.lineTo(rx, ry);
+        if (storePolyStr) polyStr += `L${rx},${ry}`;
+      }
+
+      if (storePolyStr) {
+        this.polys.push({
+          polyStr,
+          opacity,
+        });
       }
     }
 
-    drawTile(tile) {
+    drawTile(tile, storePolyStr) {
       // const tilePos = tile.tileData.tilePos[0];
       const items = tile.tileData;
 
@@ -142,9 +166,9 @@ const Arcs1DTrack = (HGC, ...args) => {
           const item = items[i];
 
           if (this.options.arcStyle === 'circle') {
-            this.drawCircle(tile.graphics, item, opacityScale);
+            this.drawCircle(tile.graphics, item, opacityScale, storePolyStr);
           } else {
-            this.drawEllipse(tile.graphics, item, heightScale, opacityScale);
+            this.drawEllipse(tile.graphics, item, heightScale, opacityScale, storePolyStr);
           }
           // tile.graphics.arc(cx, cy, r, startAngle, endAngle);
 
@@ -163,6 +187,54 @@ const Arcs1DTrack = (HGC, ...args) => {
 
       this.refreshTiles();
       this.draw();
+    }
+
+
+    /**
+     * Export an SVG representation of this track
+     *
+     * @returns {Array} The two returned DOM nodes are both SVG
+     * elements [base,track]. Base is a parent which contains track as a
+     * child. Track is clipped with a clipping rectangle contained in base.
+     *
+     */
+    exportSVG() {
+      let track = null;
+      let base = null;
+
+      [base, track] = super.superSVG();
+
+      base.setAttribute('class', 'exported-arcs-track');
+      const output = document.createElement('g');
+
+      track.appendChild(output);
+      output.setAttribute(
+        'transform',
+        `translate(${this.position[0]},${this.position[1]})`,
+      );
+
+      const strokeColor = this.options.strokeColor ? this.options.strokeColor : 'blue';
+      const strokeWidth = this.options.strokeWidth ? this.options.strokeWidth : 2;
+
+      this.visibleAndFetchedTiles().forEach((tile) => {
+        this.polys = [];
+
+        // call drawTile with storePolyStr = true so that
+        // we record path strings to use in the SVG
+        this.drawTile(tile, true);
+
+        for (const { polyStr, opacity } of this.polys) {
+          const g = document.createElement('path');
+          g.setAttribute('fill', 'transparent');
+          g.setAttribute('stroke', strokeColor);
+          g.setAttribute('stroke-width', strokeWidth);
+          g.setAttribute('opacity', opacity);
+
+          g.setAttribute('d', polyStr);
+          output.appendChild(g);
+        }
+      });
+      return [base, track];
     }
   }
 

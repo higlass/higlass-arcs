@@ -39,8 +39,10 @@ const Arcs1DTrack = (HGC, ...args) => {
       // tile.graphics.beginFill(0xff0000);
       let polyStr = '';
 
-      if (storePolyStr)
+      if (storePolyStr) {
         polyStr += `M${x1},${this.position[1] + this.dimensions[1]}`;
+      }
+
       graphics.moveTo(x1, this.position[1] + this.dimensions[1]);
 
       const limitX1 = Math.max(0, x1);

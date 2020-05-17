@@ -61,6 +61,7 @@
   "dependencies": {
     "d3-geo": "^1.10.0",
     "d3-scale": "^2.0.0",
-    "higlass-register": "^0.1.0"
+    "higlass-register": "^0.1.0",
+    "prettier": "^2.0.5"
   }
 }

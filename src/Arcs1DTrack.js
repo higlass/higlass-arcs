@@ -288,7 +288,7 @@ Arcs1DTrack.config = {
           name: 'Circle',
           value: 'circle',
         },
-        si: {
+        ellipse: {
           name: 'Ellipse',
           value: 'ellipse',
         },

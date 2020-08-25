@@ -21,6 +21,10 @@ npm install higlass-arcs
 
 ## Usage
 
+The live script can be found at:
+
+* https://unpkg.com/higlass-arcs/dist/higlass-arcs.min.js
+
 1. Make sure you load this track prior to `hglib.js`. For example:
 
 ```

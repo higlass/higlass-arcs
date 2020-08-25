@@ -14,9 +14,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
-    contentBase: [
-      path.join(__dirname, 'node_modules/higlass/build'),
-    ],
+    contentBase: [path.join(__dirname, 'node_modules/higlass/dist')],
     watchContentBase: true,
   },
   optimization: {
@@ -88,7 +86,7 @@ module.exports = {
               ],
             },
           },
-          'sass-loader',  // compiles Sass to CSS
+          'sass-loader', // compiles Sass to CSS
         ],
       },
       // Extract them HTML files

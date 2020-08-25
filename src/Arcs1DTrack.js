@@ -254,7 +254,7 @@ const icon =
 
 Arcs1DTrack.config = {
   type: '1d-arcs',
-  datatype: ['arcs', 'bedlike'],
+  datatype: ['bedlike'],
   orientation: '1d',
   name: 'Arcs1D',
   thumbnail: new DOMParser().parseFromString(icon, 'text/xml').documentElement,

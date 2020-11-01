@@ -13,11 +13,13 @@ const Arcs1DTrack = (HGC, ...args) => {
     renderTile(tile) {}
 
     maxWidth() {
-      let maxWidth = 0;
+      let maxWidth = 1;
 
       for (const tile of Object.values(this.fetchedTiles)) {
-        for (const item of tile.tileData) {
-          maxWidth = Math.max(maxWidth, item.fields[2] - item.fields[1]);
+        if (tile.tileData && !tile.tileData.error) {
+          for (const item of tile.tileData) {
+            maxWidth = Math.max(maxWidth, item.fields[2] - item.fields[1]);
+          }
         }
       }
 

@@ -50,7 +50,7 @@ const Arcs1DTrack = (HGC, ...args) => {
       const limitX1 = Math.max(0, x1);
       const limitX2 = Math.min(this.dimensions[0], x2);
 
-      const opacity = opacityScale(h);
+      const opacity = opacityScale(h) * this.strokeOpacity;
       graphics.lineStyle(this.strokeWidth, this.strokeColor, opacity);
       const startAngle = Math.acos(
         Math.min(Math.max(-(limitX1 - cx) / r, -1), 1)
@@ -92,8 +92,8 @@ const Arcs1DTrack = (HGC, ...args) => {
     }
 
     drawEllipse(graphics, item, heightScale, opacityScale, storePolyStr) {
-      const x1 = this._xScale(item.chrOffset + +item.fields[1]);
-      const x2 = this._xScale(item.chrOffset + +item.fields[2]);
+      const x1 = this._xScale(item.xStart);
+      const x2 = this._xScale(item.xEnd);
 
       const h = heightScale(item.fields[2] - +item.fields[1]);
       const r = (x2 - x1) / 2;
@@ -114,7 +114,7 @@ const Arcs1DTrack = (HGC, ...args) => {
         if (storePolyStr) polyStr += `M${x1},0`;
       }
 
-      const opacity = opacityScale(h);
+      const opacity = opacityScale(h) * this.strokeOpacity;
       graphics.lineStyle(this.strokeWidth, this.strokeColor, opacity);
 
       const resolution = 10;
@@ -156,6 +156,9 @@ const Arcs1DTrack = (HGC, ...args) => {
       this.strokeWidth = this.options.strokeWidth
         ? this.options.strokeWidth
         : 2;
+      this.strokeOpacity = this.options.strokeOpacity
+        ? this.options.strokeOpacity
+        : 1;
 
       this.flip = false;
       if (this.options.flip1D) {
@@ -268,6 +271,7 @@ Arcs1DTrack.config = {
     'labelTextOpacity',
     'labelBackgroundOpacity',
     'strokeColor',
+    'strokeOpacity',
     'strokeWidth',
     'trackBorderWidth',
     'trackBorderColor',
@@ -278,6 +282,7 @@ Arcs1DTrack.config = {
     labelColor: 'black',
     labelPosition: 'hidden',
     strokeColor: 'black',
+    strokeOpacity: 1,
     strokeWidth: 1,
     trackBorderWidth: 0,
     trackBorderColor: 'black',

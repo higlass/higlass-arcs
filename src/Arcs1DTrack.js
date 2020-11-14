@@ -27,8 +27,8 @@ const Arcs1DTrack = (HGC, ...args) => {
     }
 
     drawCircle(graphics, item, opacityScale, storePolyStr) {
-      const x1 = this._xScale(item.chrOffset + item.fields[1]);
-      const x2 = this._xScale(item.chrOffset + item.fields[2]);
+      const x1 = this._xScale(item.xStart || item.chrOffset + item.fields[1]);
+      const x2 = this._xScale(item.xEnd || item.chrOffset + item.fields[2]);
 
       // const h = Math.min(this.dimensions[1], (x2 - x1) / 2);
       const h = (x2 - x1) / 2;
@@ -92,8 +92,8 @@ const Arcs1DTrack = (HGC, ...args) => {
     }
 
     drawEllipse(graphics, item, heightScale, opacityScale, storePolyStr) {
-      const x1 = this._xScale(item.xStart);
-      const x2 = this._xScale(item.xEnd);
+      const x1 = this._xScale(item.xStart || item.chrOffset + item.fields[1]);
+      const x2 = this._xScale(item.xEnd || item.chrOffset + item.fields[2]);
 
       const h = heightScale(item.fields[2] - +item.fields[1]);
       const r = (x2 - x1) / 2;

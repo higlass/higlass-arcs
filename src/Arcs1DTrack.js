@@ -171,6 +171,20 @@ const Arcs1DTrack = (HGC, ...args) => {
         for (let i = 0; i < items.length; i++) {
           const item = items[i];
 
+          if (this.options.completelyContained) {
+            const x1 = this._xScale(
+              item.xStart || item.chrOffset + item.fields[1]
+            );
+            const x2 = this._xScale(
+              item.xEnd || item.chrOffset + item.fields[2]
+            );
+
+            if (x1 < this._xScale.range()[0] || x2 > this._xScale.range()[1]) {
+              // one end of this
+              continue;
+            }
+          }
+
           if (this.options.arcStyle === 'circle') {
             this.drawCircle(tile.graphics, item, opacityScale, storePolyStr);
           } else {
@@ -265,6 +279,7 @@ Arcs1DTrack.config = {
   thumbnail: new DOMParser().parseFromString(icon, 'text/xml').documentElement,
   availableOptions: [
     'arcStyle',
+    'completelyContained',
     'flip1D',
     'labelPosition',
     'labelColor',
@@ -278,6 +293,7 @@ Arcs1DTrack.config = {
   ],
   defaultOptions: {
     arcStyle: 'ellipse',
+    completelyContained: false,
     flip1D: 'no',
     labelColor: 'black',
     labelPosition: 'hidden',
@@ -298,6 +314,19 @@ Arcs1DTrack.config = {
         ellipse: {
           name: 'Ellipse',
           value: 'ellipse',
+        },
+      },
+    },
+    completelyContained: {
+      name: 'Only whole interactions',
+      inlineOptions: {
+        yes: {
+          name: 'Yes',
+          value: true,
+        },
+        no: {
+          name: 'No',
+          value: false,
         },
       },
     },

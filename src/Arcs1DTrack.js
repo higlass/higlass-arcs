@@ -330,6 +330,19 @@ Arcs1DTrack.config = {
         },
       },
     },
+    flip1D: {
+      name: 'Flip vertically',
+      inlineOptions: {
+        yes: {
+          name: 'Yes',
+          value: 'yes',
+        },
+        no: {
+          name: 'No',
+          value: 'no',
+        },
+      },
+    },
   },
 };
 

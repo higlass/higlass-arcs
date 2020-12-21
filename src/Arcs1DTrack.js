@@ -5,7 +5,7 @@ const Arcs1DTrack = (HGC, ...args) => {
     );
   }
 
-  const { scaleLinear, scaleLog } = HGC.libraries.d3Scale
+  const { scaleLinear, scaleLog } = HGC.libraries.d3Scale;
 
   class Arcs1DTrackClass extends HGC.tracks.HorizontalLine1DPixiTrack {
     initTile(tile) {}

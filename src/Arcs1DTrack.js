@@ -1,11 +1,11 @@
-import { scaleLinear, scaleLog } from 'd3-scale';
-
 const Arcs1DTrack = (HGC, ...args) => {
   if (!new.target) {
     throw new Error(
       'Uncaught TypeError: Class constructor cannot be invoked without "new"'
     );
   }
+
+  const { scaleLinear, scaleLog } = HGC.libraries.d3Scale
 
   class Arcs1DTrackClass extends HGC.tracks.HorizontalLine1DPixiTrack {
     initTile(tile) {}

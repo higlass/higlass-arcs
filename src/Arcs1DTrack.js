@@ -241,6 +241,8 @@ export default function Arcs1DTrack(HGC, ...args) {
           trackY: this.position[1],
           trackWidth,
           trackHeight,
+          startField: this.options.startField,
+          endField: this.options.endField,
           isFlipped: this.flip,
         });
       });
@@ -441,6 +443,8 @@ Arcs1DTrack.config = {
     'strokeWidth',
     'trackBorderWidth',
     'trackBorderColor',
+    'startField',
+    'endField',
   ],
   defaultOptions: {
     arcStyle: 'ellipse',

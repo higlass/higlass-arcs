@@ -5,7 +5,7 @@
 [![HiGlass](https://img.shields.io/badge/higlass-👍-red.svg?colorB=0f5d92)](http://higlass.io)
 [![Build Status](https://img.shields.io/travis/higlass/higlass-arcs/master.svg?colorB=0f5d92)](https://travis-ci.org/higlass/higlass-arcs)
 
-![Screenshot of the arcs track](https://user-images.githubusercontent.com/2143629/71704745-0bd15f00-2d91-11ea-99d3-4bad11dec7de.png "An example of the arcs track")
+![Screenshot of the arcs track](https://user-images.githubusercontent.com/2143629/71704745-0bd15f00-2d91-11ea-99d3-4bad11dec7de.png 'An example of the arcs track')
 
 **Note**: This is the source code for the arcs track only! You might want to check out the following repositories as well:
 
@@ -23,7 +23,7 @@ npm install higlass-arcs
 
 The live script can be found at:
 
-* https://unpkg.com/higlass-arcs/dist/higlass-arcs.min.js
+- https://unpkg.com/higlass-arcs/dist/higlass-arcs.min.js
 
 1. Make sure you load this track prior to `hglib.js`. For example:
 
@@ -58,6 +58,16 @@ The live script can be found at:
 ```
 
 Take a look at [`src/index.html`](src/index.html) for an example.
+
+## Custom Options
+
+#### startField
+
+By default, a segments x1 start value is used as the start position. You can customize this behavior by specifying another column. Useful when drawing arcs from bedpe data.
+
+#### endField
+
+By default, a segments x1 end value is used as the end position. You can customize this behavior by specifying another column. Useful when drawing arcs from bedpe data.
 
 ## Development
 

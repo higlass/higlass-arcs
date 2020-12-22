@@ -64,62 +64,75 @@ const worker = function worker() {
     trackY,
     trackWidth,
     trackHeight,
+    startField,
+    endField,
     isFlipped = false,
     minResolution = 10,
     minDistance = 2,
-  }) => (item) => {
-    const points = [];
+  }) => {
     const xScale = createScale().domain(xScaleDomain).range(xScaleRange);
 
-    const x1 = xScale(item.xStart || item.chrOffset + item.fields[1]);
-    const x2 = xScale(item.xEnd || item.chrOffset + item.fields[2]);
+    const getStart = !Number.isNaN(+startField)
+      ? (item) => item.chrOffset + +item.fields[+startField]
+      : (item) => item.xStart || item.chrOffset + +item.fields[1];
 
-    const distance = Math.abs(x1 - x2);
+    const getEnd = !Number.isNaN(+endField)
+      ? (item) => item.chrOffset + +item.fields[+endField]
+      : (item) => item.xEnd || item.chrOffset + +item.fields[2];
 
-    // Points are too close. There's no point in drawing an arc
-    if (distance < minDistance) return points;
+    return (item) => {
+      const points = [];
 
-    const h = (x2 - x1) / 2;
-    const d = (x2 - x1) / 2;
-    const r = (d * d + h * h) / (2 * h);
-    const cx = (x1 + x2) / 2;
-    let cy = trackHeight - h + r;
+      const x1 = xScale(getStart(item));
+      const x2 = xScale(getEnd(item));
 
-    const limitX1 = Math.max(0, x1);
-    const limitX2 = Math.min(trackWidth, x2);
+      const distance = Math.abs(x1 - x2);
 
-    const startAngle = Math.acos(
-      Math.min(Math.max(-(limitX1 - cx) / r, -1), 1)
-    );
-    let endAngle = Math.acos(Math.min(Math.max(-(limitX2 - cx) / r, -1), 1));
+      // Points are too close. There's no point in drawing an arc
+      if (distance < minDistance) return null;
 
-    if (isFlipped) {
-      cy = 0;
-      endAngle = -Math.PI;
-      points.push([x1, 0]);
-    } else {
-      points.push([x1, trackY + trackHeight]);
-    }
+      const h = (x2 - x1) / 2;
+      const d = (x2 - x1) / 2;
+      const r = (d * d + h * h) / (2 * h);
+      const cx = (x1 + x2) / 2;
+      let cy = trackHeight - h + r;
 
-    const resolution = Math.ceil(
-      Math.max(minResolution, minResolution * Math.log10(distance))
-    );
+      const limitX1 = Math.max(0, x1);
+      const limitX2 = Math.min(trackWidth, x2);
 
-    const angleScale = createScale()
-      .domain([0, resolution - 1])
-      .range([startAngle, endAngle]);
+      const startAngle = Math.acos(
+        Math.min(Math.max(-(limitX1 - cx) / r, -1), 1)
+      );
+      let endAngle = Math.acos(Math.min(Math.max(-(limitX2 - cx) / r, -1), 1));
 
-    for (let k = 0; k < resolution; k++) {
-      const ax = r * Math.cos(angleScale(k));
-      const ay = r * Math.sin(angleScale(k));
+      if (isFlipped) {
+        cy = 0;
+        endAngle = -Math.PI;
+        points.push([x1, 0]);
+      } else {
+        points.push([x1, trackY + trackHeight]);
+      }
 
-      const rx = cx - ax;
-      const ry = cy - ay;
+      const resolution = Math.ceil(
+        Math.max(minResolution, minResolution * Math.log10(distance))
+      );
 
-      points.push([rx, ry]);
-    }
+      const angleScale = createScale()
+        .domain([0, resolution - 1])
+        .range([startAngle, endAngle]);
 
-    return points;
+      for (let k = 0; k < resolution; k++) {
+        const ax = r * Math.cos(angleScale(k));
+        const ay = r * Math.sin(angleScale(k));
+
+        const rx = cx - ax;
+        const ry = cy - ay;
+
+        points.push([rx, ry]);
+      }
+
+      return points;
+    };
   };
 
   const getItemToEllipsesPoints = ({
@@ -127,53 +140,67 @@ const worker = function worker() {
     xScaleDomain,
     xScaleRange,
     trackHeight,
+    startField,
+    endField,
     isFlipped = false,
     resolution = 10,
     minDistance = 2,
-  }) => (item) => {
-    const points = [];
-    const xScale = createScale().domain(xScaleDomain).range(xScaleRange);
+  }) => {
     const heightScale = createScale()
       .domain([0, maxWidth])
       .range([trackHeight / 4, (3 * trackHeight) / 4]);
 
-    const x1 = xScale(item.xStart || item.chrOffset + item.fields[1]);
-    const x2 = xScale(item.xEnd || item.chrOffset + item.fields[2]);
+    const xScale = createScale().domain(xScaleDomain).range(xScaleRange);
 
-    // Points are too close. There's no point in drawing an arc
-    if (Math.abs(x1 - x2) < minDistance) return points;
+    const getStart = !Number.isNaN(+startField)
+      ? (item) => item.chrOffset + item.fields[+startField]
+      : (item) => item.xStart || item.chrOffset + item.fields[1];
 
-    const h = heightScale(item.fields[2] - +item.fields[1]);
-    const r = (x2 - x1) / 2;
+    const getEnd = !Number.isNaN(+endField)
+      ? (item) => item.chrOffset + item.fields[+endField]
+      : (item) => item.xEnd || item.chrOffset + item.fields[2];
 
-    const cx = (x1 + x2) / 2;
-    let cy = trackHeight;
-    const startAngle = 0;
-    let endAngle = Math.PI;
+    return (item) => {
+      const points = [];
 
-    if (isFlipped) {
-      cy = 0;
-      endAngle = -Math.PI;
-      points.push([x1, 0]);
-    } else {
-      points.push([x1, trackHeight]);
-    }
+      const x1 = xScale(getStart(item));
+      const x2 = xScale(getEnd(item));
 
-    const angleScale = createScale()
-      .domain([0, resolution - 1])
-      .range([startAngle, endAngle]);
+      // Points are too close. There's no point in drawing an arc
+      if (Math.abs(x1 - x2) < minDistance) return null;
 
-    for (let k = 0; k < resolution; k++) {
-      const ax = r * Math.cos(angleScale(k));
-      const ay = h * Math.sin(angleScale(k));
+      const h = heightScale(item.fields[2] - +item.fields[1]);
+      const r = (x2 - x1) / 2;
 
-      const rx = cx - ax;
-      const ry = cy - ay;
+      const cx = (x1 + x2) / 2;
+      let cy = trackHeight;
+      const startAngle = 0;
+      let endAngle = Math.PI;
 
-      points.push([rx, ry]);
-    }
+      if (isFlipped) {
+        cy = 0;
+        endAngle = -Math.PI;
+        points.push([x1, 0]);
+      } else {
+        points.push([x1, trackHeight]);
+      }
 
-    return points;
+      const angleScale = createScale()
+        .domain([0, resolution - 1])
+        .range([startAngle, endAngle]);
+
+      for (let k = 0; k < resolution; k++) {
+        const ax = r * Math.cos(angleScale(k));
+        const ay = h * Math.sin(angleScale(k));
+
+        const rx = cx - ax;
+        const ry = cy - ay;
+
+        points.push([rx, ry]);
+      }
+
+      return points;
+    };
   };
 
   const pointsToBuffers = (itemPoints) => {
@@ -263,7 +290,7 @@ const worker = function worker() {
         : getItemToEllipsesPoints(event.data);
 
     try {
-      const itemPoints = event.data.items.map(itemToPoints);
+      const itemPoints = event.data.items.map(itemToPoints).filter((x) => x);
       const buffers = pointsToBuffers(itemPoints);
 
       self.postMessage(

@@ -66,10 +66,7 @@ export default function Arcs1DTrack(HGC, ...args) {
         ? this.options.strokeOpacity
         : 1;
 
-      this.flip = false;
-      if (this.options.flip1D) {
-        this.flip = this.options.flip1D === 'yes';
-      }
+      this.flip = this.options.flip1D === 'yes';
     }
 
     destroy() {

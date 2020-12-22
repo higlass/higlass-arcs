@@ -65,8 +65,8 @@ const worker = function worker() {
     trackWidth,
     trackHeight,
     isFlipped = false,
-    resolution = 10,
-    minDist = 2,
+    minResolution = 10,
+    minDistance = 2,
   }) => (item) => {
     const points = [];
     const xScale = createScale().domain(xScaleDomain).range(xScaleRange);
@@ -74,8 +74,10 @@ const worker = function worker() {
     const x1 = xScale(item.xStart || item.chrOffset + item.fields[1]);
     const x2 = xScale(item.xEnd || item.chrOffset + item.fields[2]);
 
+    const distance = Math.abs(x1 - x2);
+
     // Points are too close. There's no point in drawing an arc
-    if (Math.abs(x1 - x2) < minDist) return points;
+    if (distance < minDistance) return points;
 
     const h = (x2 - x1) / 2;
     const d = (x2 - x1) / 2;
@@ -98,6 +100,10 @@ const worker = function worker() {
     } else {
       points.push([x1, trackY + trackHeight]);
     }
+
+    const resolution = Math.ceil(
+      Math.max(minResolution, minResolution * Math.log10(distance))
+    );
 
     const angleScale = createScale()
       .domain([0, resolution - 1])
@@ -123,7 +129,7 @@ const worker = function worker() {
     trackHeight,
     isFlipped = false,
     resolution = 10,
-    minDist = 2,
+    minDistance = 2,
   }) => (item) => {
     const points = [];
     const xScale = createScale().domain(xScaleDomain).range(xScaleRange);
@@ -135,7 +141,7 @@ const worker = function worker() {
     const x2 = xScale(item.xEnd || item.chrOffset + item.fields[2]);
 
     // Points are too close. There's no point in drawing an arc
-    if (Math.abs(x1 - x2) < minDist) return points;
+    if (Math.abs(x1 - x2) < minDistance) return points;
 
     const h = heightScale(item.fields[2] - +item.fields[1]);
     const r = (x2 - x1) / 2;

@@ -480,6 +480,7 @@ Arcs1DTrack.config = {
     'trackBorderColor',
     'startField',
     'endField',
+    'filter',
   ],
   defaultOptions: {
     arcStyle: 'ellipse',

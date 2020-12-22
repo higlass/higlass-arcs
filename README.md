@@ -69,6 +69,23 @@ By default, a segments x1 start value is used as the start position. You can cus
 
 By default, a segments x1 end value is used as the end position. You can customize this behavior by specifying another column. Useful when drawing arcs from bedpe data.
 
+#### filter
+
+An object with the following properties to filter segments.
+
+**Properties:**
+
+- `set`: a list of values that will allow segments to be included, i.e., rendered
+- `field`: an integer defining the segment field column number that should be used to check against the `set`
+
+In other words, this is how the filtering is basically implement:
+
+```javascript
+segments.filter((segment) =>
+  options.filter.set.includes(segment.fields[options.filter.field])
+);
+```
+
 ## Development
 
 ### Installation

@@ -1,6 +1,7 @@
 ## v0.3.0
 
 - Switch rendering to WebGL with web-workers for better performance
+- Added `startField` and `endField` to support bedpe data
 
 ## v0.2.13
 

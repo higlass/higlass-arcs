@@ -85,7 +85,6 @@ const worker = function worker() {
 
       const x1 = xScale(getStart(item));
       const x2 = xScale(getEnd(item));
-
       const distance = Math.abs(x1 - x2);
 
       // Points are too close. There's no point in drawing an arc
@@ -143,8 +142,8 @@ const worker = function worker() {
     startField,
     endField,
     isFlipped = false,
-    resolution = 10,
-    minDistance = 2,
+    minResolution = 10,
+    minDistance = 1,
   }) => {
     const heightScale = createScale()
       .domain([0, maxWidth])
@@ -165,9 +164,10 @@ const worker = function worker() {
 
       const x1 = xScale(getStart(item));
       const x2 = xScale(getEnd(item));
+      const distance = Math.abs(x1 - x2);
 
       // Points are too close. There's no point in drawing an arc
-      if (Math.abs(x1 - x2) < minDistance) return null;
+      if (distance < minDistance) return null;
 
       const h = heightScale(item.fields[2] - +item.fields[1]);
       const r = (x2 - x1) / 2;
@@ -184,6 +184,10 @@ const worker = function worker() {
       } else {
         points.push([x1, trackHeight]);
       }
+
+      const resolution = Math.ceil(
+        Math.max(minResolution, minResolution * Math.log10(distance))
+      );
 
       const angleScale = createScale()
         .domain([0, resolution - 1])
@@ -289,8 +293,18 @@ const worker = function worker() {
         ? getItemToCirclePoints(event.data)
         : getItemToEllipsesPoints(event.data);
 
+    const itemFilter =
+      event.data.filterSet && event.data.filterField
+        ? (item) =>
+            event.data.filterSet.has(item.fields[event.data.filterField])
+        : () => true;
+
     try {
-      const itemPoints = event.data.items.map(itemToPoints).filter((x) => x);
+      const itemPoints = event.data.items
+        .filter(itemFilter)
+        .map(itemToPoints)
+        .filter((x) => x);
+      console.log('itemPoints', itemPoints.length);
       const buffers = pointsToBuffers(itemPoints);
 
       self.postMessage(

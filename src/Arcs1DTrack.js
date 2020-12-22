@@ -5,6 +5,7 @@ import VS from './arc.vs';
 import FS from './arc.fs';
 
 const FLOAT_BYTES = Float32Array.BYTES_PER_ELEMENT;
+const MIN_RESOLUTION = 10;
 
 const scaleGraphics = (graphics, xScale, drawnAtScale) => {
   const tileK =
@@ -67,6 +68,21 @@ export default function Arcs1DTrack(HGC, ...args) {
         : 1;
 
       this.flip = this.options.flip1D === 'yes';
+
+      this.filterSet =
+        this.options.filter && this.options.filter.set
+          ? this.options.filter.set.reduce((s, include) => {
+              s.add(include);
+              return s;
+            }, new Set())
+          : null;
+
+      this.filterField = this.options.filter && this.options.filter.field;
+
+      this.filter =
+        this.filterSet && this.filterField
+          ? (item) => this.filterSet.has(item.fields[this.filterField])
+          : () => true;
     }
 
     destroy() {
@@ -91,9 +107,10 @@ export default function Arcs1DTrack(HGC, ...args) {
       return maxWidth;
     }
 
-    drawCircleAsSvg(item, opacityScale) {
-      const x1 = this._xScale(item.xStart || item.chrOffset + item.fields[1]);
-      const x2 = this._xScale(item.xEnd || item.chrOffset + item.fields[2]);
+    drawCircleAsSvg(item, opacityScale, getStart, getEnd) {
+      const x1 = this._xScale(getStart(item));
+      const x2 = this._xScale(getEnd(item));
+      const distance = Math.abs(x1 - x2);
 
       const h = (x2 - x1) / 2;
       const d = (x2 - x1) / 2;
@@ -118,7 +135,9 @@ export default function Arcs1DTrack(HGC, ...args) {
         polyStr += `M${x1},0`;
       }
 
-      const resolution = 10;
+      const resolution = Math.ceil(
+        Math.max(MIN_RESOLUTION, MIN_RESOLUTION * Math.log10(distance))
+      );
       const angleScale = scaleLinear()
         .domain([0, resolution - 1])
         .range([startAngle, endAngle]);
@@ -139,9 +158,10 @@ export default function Arcs1DTrack(HGC, ...args) {
       });
     }
 
-    drawEllipseAsSvg(item, heightScale, opacityScale) {
-      const x1 = this._xScale(item.xStart || item.chrOffset + item.fields[1]);
-      const x2 = this._xScale(item.xEnd || item.chrOffset + item.fields[2]);
+    drawEllipseAsSvg(item, opacityScale, getStart, getEnd, heightScale) {
+      const x1 = this._xScale(getStart(item));
+      const x2 = this._xScale(getEnd(item));
+      const distance = Math.abs(x1 - x2);
 
       const h = heightScale(item.fields[2] - +item.fields[1]);
       const r = (x2 - x1) / 2;
@@ -162,7 +182,9 @@ export default function Arcs1DTrack(HGC, ...args) {
 
       const opacity = opacityScale(h) * this.strokeOpacity;
 
-      const resolution = 10;
+      const resolution = Math.ceil(
+        Math.max(MIN_RESOLUTION, MIN_RESOLUTION * Math.log10(distance))
+      );
       const angleScale = scaleLinear()
         .domain([0, resolution - 1])
         .range([startAngle, endAngle]);
@@ -184,12 +206,20 @@ export default function Arcs1DTrack(HGC, ...args) {
     }
 
     drawTileAsSvg(tile) {
-      const items = tile.tileData;
+      const items = tile.tileData.filter(this.filter);
 
       const maxWidth = this.maxWidth();
       const heightScale = scaleLinear()
         .domain([0, maxWidth])
         .range([this.dimensions[1] / 4, (3 * this.dimensions[1]) / 4]);
+
+      const getStart = !Number.isNaN(+this.options.startField)
+        ? (item) => item.chrOffset + +item.fields[+this.options.startField]
+        : (item) => item.xStart || item.chrOffset + +item.fields[1];
+
+      const getEnd = !Number.isNaN(+this.options.endField)
+        ? (item) => item.chrOffset + +item.fields[+this.options.endField]
+        : (item) => item.xEnd || item.chrOffset + +item.fields[2];
 
       if (items) {
         tile.graphics.clear();
@@ -199,12 +229,8 @@ export default function Arcs1DTrack(HGC, ...args) {
           const item = items[i];
 
           if (this.options.completelyContained) {
-            const x1 = this._xScale(
-              item.xStart || item.chrOffset + item.fields[1]
-            );
-            const x2 = this._xScale(
-              item.xEnd || item.chrOffset + item.fields[2]
-            );
+            const x1 = this._xScale(getStart(item));
+            const x2 = this._xScale(getEnd(item));
 
             if (x1 < this._xScale.range()[0] || x2 > this._xScale.range()[1]) {
               // one end of this
@@ -213,9 +239,15 @@ export default function Arcs1DTrack(HGC, ...args) {
           }
 
           if (this.options.arcStyle === 'circle') {
-            this.drawCircleAsSvg(item, opacityScale);
+            this.drawCircleAsSvg(item, opacityScale, getStart, getEnd);
           } else {
-            this.drawEllipseAsSvg(item, heightScale, opacityScale);
+            this.drawEllipseAsSvg(
+              item,
+              opacityScale,
+              getStart,
+              getEnd,
+              heightScale
+            );
           }
         }
       }
@@ -234,6 +266,8 @@ export default function Arcs1DTrack(HGC, ...args) {
 
         this.arcsWorker.postMessage({
           items,
+          filterSet: this.filterSet,
+          filterField: this.filterField,
           arcStyle: this.options.arcStyle,
           maxWidth: this.maxWidth(),
           xScaleDomain: this._xScale.domain(),
@@ -244,6 +278,7 @@ export default function Arcs1DTrack(HGC, ...args) {
           startField: this.options.startField,
           endField: this.options.endField,
           isFlipped: this.flip,
+          minResolution: MIN_RESOLUTION,
         });
       });
     }

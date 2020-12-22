@@ -2,8 +2,7 @@
 const path = require('path');
 
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -17,13 +16,8 @@ module.exports = {
     contentBase: [path.join(__dirname, 'node_modules/higlass/dist')],
   },
   optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: false,
-      }),
-    ],
+    minimize: true,
+    minimizer: [new TerserPlugin()],
   },
   module: {
     rules: [
@@ -53,6 +47,5 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: './src/index.html',
     }),
-    new UnminifiedWebpackPlugin(),
   ],
 };

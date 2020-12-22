@@ -58,7 +58,7 @@ const worker = function worker() {
     return scale;
   };
 
-  const getItemToPoints = ({
+  const getItemToCirclePoints = ({
     xScaleDomain,
     xScaleRange,
     trackY,
@@ -106,6 +106,60 @@ const worker = function worker() {
     for (let k = 0; k < resolution; k++) {
       const ax = r * Math.cos(angleScale(k));
       const ay = r * Math.sin(angleScale(k));
+
+      const rx = cx - ax;
+      const ry = cy - ay;
+
+      points.push([rx, ry]);
+    }
+
+    return points;
+  };
+
+  const getItemToEllipsesPoints = ({
+    maxWidth,
+    xScaleDomain,
+    xScaleRange,
+    trackHeight,
+    isFlipped = false,
+    resolution = 10,
+    minDist = 2,
+  }) => (item) => {
+    const points = [];
+    const xScale = createScale().domain(xScaleDomain).range(xScaleRange);
+    const heightScale = createScale()
+      .domain([0, maxWidth])
+      .range([trackHeight / 4, (3 * trackHeight) / 4]);
+
+    const x1 = xScale(item.xStart || item.chrOffset + item.fields[1]);
+    const x2 = xScale(item.xEnd || item.chrOffset + item.fields[2]);
+
+    // Points are too close. There's no point in drawing an arc
+    if (Math.abs(x1 - x2) < minDist) return points;
+
+    const h = heightScale(item.fields[2] - +item.fields[1]);
+    const r = (x2 - x1) / 2;
+
+    const cx = (x1 + x2) / 2;
+    let cy = trackHeight;
+    const startAngle = 0;
+    let endAngle = Math.PI;
+
+    if (isFlipped) {
+      cy = 0;
+      endAngle = -Math.PI;
+      points.push([x1, 0]);
+    } else {
+      points.push([x1, trackHeight]);
+    }
+
+    const angleScale = createScale()
+      .domain([0, resolution - 1])
+      .range([startAngle, endAngle]);
+
+    for (let k = 0; k < resolution; k++) {
+      const ax = r * Math.cos(angleScale(k));
+      const ay = h * Math.sin(angleScale(k));
 
       const rx = cx - ax;
       const ry = cy - ay;
@@ -197,7 +251,10 @@ const worker = function worker() {
   };
 
   self.onmessage = function onmessage(event) {
-    const itemToPoints = getItemToPoints(event.data);
+    const itemToPoints =
+      event.data.arcStyle === 'circle'
+        ? getItemToCirclePoints(event.data)
+        : getItemToEllipsesPoints(event.data);
 
     try {
       const itemPoints = event.data.items.map(itemToPoints);
@@ -216,7 +273,7 @@ const worker = function worker() {
         ]
       );
     } catch (err) {
-      self.postMessage(error(`Failed to run dbscan: ${err}`));
+      self.postMessage(error(`Failed to compute circle arcs: ${err}`));
     }
   };
 };

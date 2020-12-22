@@ -1,6 +1,6 @@
 import { createWorker } from '@flekschas/utils';
 
-import arcsCircleWorkerFn from './arcs-circle-worker';
+import arcsWorkerFn from './arcs-worker';
 import VS from './arc.vs';
 import FS from './arc.fs';
 
@@ -42,6 +42,8 @@ export default function Arcs1DTrack(HGC, ...args) {
         fill: 0x808080,
       });
       this.pLoading.addChild(this.loadIndicator);
+
+      this.arcsWorker = createWorker(arcsWorkerFn);
     }
 
     updateOptions() {
@@ -68,14 +70,10 @@ export default function Arcs1DTrack(HGC, ...args) {
       if (this.options.flip1D) {
         this.flip = this.options.flip1D === 'yes';
       }
+    }
 
+    destroy() {
       if (this.arcsWorker) this.arcsWorker.terminate();
-
-      if (this.options.arcStyle === 'circle') {
-        this.arcsWorker = createWorker(arcsCircleWorkerFn);
-      } else {
-        this.arcsWorker = createWorker(arcsCircleWorkerFn);
-      }
     }
 
     initTile() {}
@@ -239,6 +237,8 @@ export default function Arcs1DTrack(HGC, ...args) {
 
         this.arcsWorker.postMessage({
           items,
+          arcStyle: this.options.arcStyle,
+          maxWidth: this.maxWidth(),
           xScaleDomain: this._xScale.domain(),
           xScaleRange: this._xScale.range(),
           trackY: this.position[1],
@@ -257,8 +257,6 @@ export default function Arcs1DTrack(HGC, ...args) {
         .range([...this.xScale().range()]);
 
       const tiles = Object.values(this.fetchedTiles);
-
-      // const maxWidth = this.maxWidth();
 
       this.getBuffers(tiles.flatMap((tile) => tile.tileData)).then(
         ({ positions, offsets, indices }) => {

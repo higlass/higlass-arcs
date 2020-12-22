@@ -261,7 +261,10 @@ export default function Arcs1DTrack(HGC, ...args) {
       this.getBuffers(tiles.flatMap((tile) => tile.tileData)).then(
         ({ positions, offsets, indices }) => {
           const uniforms = new PIXI.UniformGroup({
-            uColor: [...this.strokeColorRgbNorm, this.strokeOpacity],
+            uColor: [
+              ...this.strokeColorRgbNorm.map((c) => c * this.strokeOpacity),
+              this.strokeOpacity,
+            ],
             uWidth: this.strokeWidth,
             uMiter: 1,
           });

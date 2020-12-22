@@ -10,18 +10,12 @@ uniform float uAreaColorTexRes;
 uniform mat3 projectionMatrix;
 uniform mat3 translationMatrix;
 
-uniform vec4 uColor;
 uniform float uWidth;
 uniform int uMiter;
-
-varying vec4 vColor;
 
 void main(void)
 {
   mat3 model = projectionMatrix * translationMatrix;
-
-  // Render line
-  vColor = vec4(uColor.rgb, 1.0);
 
   vec4 prevGlPos = vec4((model * vec3(aPrevPosition, 1.0)).xy, 0.0, 1.0);
   vec4 currGlPos = vec4((model * vec3(aCurrPosition, 1.0)).xy, 0.0, 1.0);

@@ -1,17 +1,19 @@
 # Arcs Track for HiGlass
 
-> Display connections between non-adjacent regions.
+> Display connections between non-adjacent regions as arcs
 
 [![HiGlass](https://img.shields.io/badge/higlass-👍-red.svg?colorB=0f5d92)](http://higlass.io)
 [![Build Status](https://img.shields.io/travis/higlass/higlass-arcs/master.svg?colorB=0f5d92)](https://travis-ci.org/higlass/higlass-arcs)
 
 ![Screenshot of the arcs track](https://user-images.githubusercontent.com/2143629/71704745-0bd15f00-2d91-11ea-99d3-4bad11dec7de.png 'An example of the arcs track')
 
+The WebGL implementation is inspired by [Matt Deslauriers' wonderful blog post on drawing lines](https://mattdesl.svbtle.com/drawing-lines-is-hard).
+
 **Note**: This is the source code for the arcs track only! You might want to check out the following repositories as well:
 
-- HiGlass viewer: https://github.com/hms-dbmi/higlass
-- HiGlass server: https://github.com/hms-dbmi/higlass-server
-- HiGlass docker: https://github.com/hms-dbmi/higlass-docker
+- HiGlass viewer: https://github.com/higlass/higlass
+- HiGlass server: https://github.com/higlass/higlass-server
+- HiGlass docker: https://github.com/higlass/higlass-docker
 
 ## Installation
 

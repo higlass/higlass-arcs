@@ -13,6 +13,8 @@ uniform mat3 translationMatrix;
 uniform float uWidth;
 uniform int uMiter;
 
+// See https://mattdesl.svbtle.com/drawing-lines-is-hard for the conceptual
+// ideas behind the rendering
 void main(void)
 {
   mat3 model = projectionMatrix * translationMatrix;

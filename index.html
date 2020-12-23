@@ -1,0 +1,177 @@
+<!doctype html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="Fritz Lekschas"><meta name="description" content="Display arcs along a 1D track"><meta name="keywords" content="HiGlass, Plugin Tracks, Arcs"><title>Arcs Track for HiGlass</title><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="hglib.css"><script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script><script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script><script crossorigin src="https://unpkg.com/pixi.js-legacy@5/dist/pixi-legacy.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.32.1/react-bootstrap.min.js"></script><body><div style="height: 50px"/><div id="demo" style="position: absolute; left: 1rem; top: 1rem; bottom: 1rem; right: 1rem"></div><script src="higlass-arcs.min.js"></script></body><script src="hglib.js"></script><script>const testViewConfig =
+{
+  "editable": true,
+  "views": [
+    {
+      "uid": "bq8XqbKnSByCds_LNA0KPw",
+      "tracks": {
+        "top": [
+          {
+            "type": "top-axis",
+            "options": {},
+            "uid": "T-h45lNeRsez_jv6rD9izg",
+            "server": "http://localhost:50478/api/v1",
+            "height": 20
+          },
+          {
+            "type": "horizontal-chromosome-labels",
+            "options": {
+              "tickPositions": "ends",
+              "color": "#808080",
+              "stroke": "#ffffff",
+              "fontSize": 12,
+              "fontIsLeftAligned": false,
+              "showMousePosition": false,
+              "mousePositionColor": "#000000"
+            },
+            "tilesetUid": "ADfY_RtsQR6oKOMyrq6qhw",
+            "height": 30,
+            "width": null,
+            "server": "https://resgen.io/api/v1",
+            "uid": "LL6t70pOQWWmn9IVmicKSg"
+          },
+          {
+            "type": "horizontal-gene-annotations",
+            "options": {
+              "fontSize": 10,
+              "labelColor": "black",
+              "labelBackgroundColor": "#ffffff",
+              "labelPosition": "hidden",
+              "labelLeftMargin": 0,
+              "labelRightMargin": 0,
+              "labelTopMargin": 0,
+              "labelBottomMargin": 0,
+              "minHeight": 24,
+              "plusStrandColor": "blue",
+              "minusStrandColor": "red",
+              "trackBorderWidth": 0,
+              "trackBorderColor": "black",
+              "showMousePosition": false,
+              "mousePositionColor": "#000000",
+              "geneAnnotationHeight": 12,
+              "geneLabelPosition": "outside",
+              "geneStrandSpacing": 4,
+              "name": "Gene Annotations (hg19)"
+            },
+            "tilesetUid": "NCifnbrKQu6j-ohVWJLoJw",
+            "height": 55,
+            "width": null,
+            "server": "https://resgen.io/api/v1",
+            "uid": "etN9kTVxTe6jn5O8uZ6Oow"
+          },
+          {
+            "type": "horizontal-bar",
+            "options": {
+              "barFillColor": "rgb(201, 99, 95)",
+              "align": "bottom",
+              "labelColor": "[glyph-color]",
+              "labelPosition": "topLeft",
+              "labelLeftMargin": 0,
+              "labelRightMargin": 0,
+              "labelTopMargin": 0,
+              "labelBottomMargin": 0,
+              "labelShowResolution": false,
+              "axisLabelFormatting": "scientific",
+              "axisPositionHorizontal": "right",
+              "valueScaling": "linear",
+              "trackBorderWidth": 0,
+              "trackBorderColor": "black",
+              "labelTextOpacity": 0.4,
+              "barOpacity": 1,
+              "name": "microglia_H3K27ac_pooled"
+            },
+            "tilesetUid": "WyTmNKusQyuFmVmpSpPzCQ",
+            "height": 20,
+            "width": null,
+            "server": "https://resgen.io/api/v1",
+            "uid": "V3SfNozTRsCmKw3aU3XLPQ",
+            "aggregationModes": {
+              "mean": {
+                "name": "Mean",
+                "value": "mean"
+              },
+              "min": {
+                "name": "Min",
+                "value": "min"
+              },
+              "max": {
+                "name": "Max",
+                "value": "max"
+              },
+              "std": {
+                "name": "Standard Deviation",
+                "value": "std"
+              }
+            }
+          },
+          {
+            "type": "1d-arcs",
+            "uid": "u1",
+            "tilesetUid": "JzccFAJUQEiz-0188xaWZg",
+            "server": "https://resgen.io/api/v1",
+            "height": 50,
+            "options": {
+              "labelPosition": "topLeft",
+              "strokeColor": "green",
+              "strokeWidth": 1.5,
+              "strokeOpacity": 0.33,
+              "arcStyle": "circle",
+              "flip1D": "yes",
+              "labelColor": "black",
+              "name": "Neuron PLAC-seq"
+            },
+          },
+          {
+            "type": "1d-arcs",
+            "uid": "u2",
+            "server": "https://resgen.io/api/v1",
+            "tilesetUid": "JzccFAJUQEiz-0188xaWZg",
+            "height": 50,
+            "options": {
+              "labelPosition": "topLeft",
+              "strokeColor": "green",
+              "strokeWidth": 1.5,
+              "strokeOpacity": 0.33,
+              "arcStyle": "ellipsis",
+            },
+          }
+        ],
+        "center": [],
+        "left": [],
+        "right": [],
+        "bottom": [],
+        "whole": [],
+        "gallery": []
+      },
+      "layout": {
+        "w": 12,
+        "h": 12,
+        "x": 0,
+        "y": 0
+      },
+      "initialXDomain": [2453719221, 2470150193],
+      "initialYDomain": [2453719221, 2470150193]
+    }
+  ],
+  "trackSourceServers": ["http://higlass.io/api/v1"],
+  "locationLocks": {
+    "locksByViewUid": {},
+    "locksDict": {}
+  },
+  "valueScaleLocks": {
+    "locksByViewUid": {},
+    "locksDict": {}
+  },
+  "zoomLocks": {
+    "locksByViewUid": {},
+    "locksDict": {}
+  },
+  "exportViewUrl": "http://higlass.io/api/v1/viewconfs"
+}
+
+
+window.hglib.viewer(
+  document.getElementById('demo'),
+  testViewConfig,
+  { bounded: true },
+);</script></head>

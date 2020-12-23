@@ -80,7 +80,7 @@ An object with the following properties to filter segments.
 - `set`: a list of values that will allow segments to be included, i.e., rendered
 - `field`: an integer defining the segment field column number that should be used to check against the `set`
 
-In other words, this is how the filtering is basically implement:
+In other words, this is how the filtering is basically implemented:
 
 ```javascript
 segments.filter((segment) =>

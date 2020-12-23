@@ -22,7 +22,7 @@
     "type": "git",
     "url": "git://github.com/higlass/higlass-arcs.git"
   },
-  "main": "src/index.js",
+  "main": "dist/higlass-arcs.min.js",
   "unpkg": "dist/higlass-arcs.min.js",
   "files": [
     "src",
@@ -42,6 +42,7 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.2.0",
     "eslint-plugin-react": "^7.21.5",
+    "gh-pages": "^3.1.0",
     "higlass": "^1.11.5",
     "html-webpack-plugin": "^4.5.0",
     "prettier": "^2.2.1",
@@ -53,7 +54,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development --open",
-    "prerelease": "rm -rf dist/*; npm run build; zip -r dist.zip dist"
+    "prerelease": "rm -rf dist/*; npm run build; zip -r dist.zip dist",
+    "deploy": "rm -rf demo; npm run build; cp -r ./dist ./demo; touch ./demo/.nojekyll; cp node_modules/higlass/dist/hglib.* ./demo; gh-pages -d demo -t --git git"
   },
   "dependencies": {
     "@flekschas/utils": "^0.27.0",

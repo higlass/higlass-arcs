@@ -101,3 +101,4 @@ $ npm install
 
 **Developmental server**: `npm start`
 **Production build**: `npm run build`
+**Deploy demo**: `npm run deploy`

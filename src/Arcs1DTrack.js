@@ -118,7 +118,7 @@ export default function Arcs1DTrack(HGC, ...args) {
       return maxDistance;
     }
 
-    drawCircleAsSvg(item, opacityScale) {
+    drawCircleAsSvg(item) {
       const x1 = this._xScale(this.getStart(item));
       const x2 = this._xScale(this.getEnd(item));
       const distance = Math.abs(x1 - x2);
@@ -129,12 +129,12 @@ export default function Arcs1DTrack(HGC, ...args) {
       const cx = (x1 + x2) / 2;
       let cy = this.dimensions[1] - h + r;
 
-      let polyStr = `M${x1},${this.position[1] + this.dimensions[1]}`;
+      let polyStr = '';
 
       const limitX1 = Math.max(0, x1);
       const limitX2 = Math.min(this.dimensions[0], x2);
 
-      const opacity = opacityScale(h) * this.strokeOpacity;
+      const opacity = this.strokeOpacity;
       const startAngle = Math.acos(
         Math.min(Math.max(-(limitX1 - cx) / r, -1), 1)
       );
@@ -144,6 +144,8 @@ export default function Arcs1DTrack(HGC, ...args) {
         cy = 0;
         endAngle = -Math.PI;
         polyStr += `M${x1},0`;
+      } else {
+        polyStr += `M${x1},${this.position[1] + this.dimensions[1]}`;
       }
 
       const resolution = Math.ceil(
@@ -187,12 +189,13 @@ export default function Arcs1DTrack(HGC, ...args) {
       let endAngle = Math.PI;
 
       let polyStr = '';
-      polyStr += `M${x1},${this.dimensions[1]}`;
 
       if (this.flip) {
         cy = 0;
         endAngle = -Math.PI;
         polyStr += `M${x1},0`;
+      } else {
+        polyStr += `M${x1},${this.dimensions[1]}`;
       }
 
       const opacity = opacityScale(h) * this.strokeOpacity;

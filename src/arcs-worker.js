@@ -17,16 +17,26 @@ const worker = function worker() {
     let rangeEnd = 1;
     let rangeSize = 1;
 
-    const scale = (value) =>
-      Math.min(
-        rangeMax,
-        Math.max(
-          rangeMin,
-          rangeEnd -
-            ((domainMaxTransformed - transformer(value)) / domainSize) *
-              rangeSize
-        )
+    let clip = false;
+
+    const scale = (value) => {
+      if (clip) {
+        return Math.min(
+          rangeMax,
+          Math.max(
+            rangeMin,
+            rangeEnd -
+              ((domainMaxTransformed - transformer(value)) / domainSize) *
+                rangeSize
+          )
+        );
+      }
+
+      return (
+        rangeEnd -
+        ((domainMaxTransformed - transformer(value)) / domainSize) * rangeSize
       );
+    };
 
     scale.domain = (newDomain) => {
       if (newDomain.length === 0) return [domainMin, domainMax];
@@ -53,6 +63,10 @@ const worker = function worker() {
       rangeSize = rangeEnd - rangeStart;
 
       return scale;
+    };
+
+    scale.clip = (newClip) => {
+      clip = Boolean(newClip);
     };
 
     return scale;

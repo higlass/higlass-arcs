@@ -45,6 +45,11 @@ export default function Arcs1DTrack(HGC, ...args) {
       this.pLoading.addChild(this.loadIndicator);
 
       this.arcsWorker = createWorker(arcsWorkerFn);
+
+      this.arcsGraphics = new PIXI.Graphics();
+      this.pMain.addChild(this.arcsGraphics);
+
+      this.renderCall = 0;
     }
 
     updateOptions() {
@@ -290,82 +295,80 @@ export default function Arcs1DTrack(HGC, ...args) {
     updateExistingGraphics() {
       this.updateLoadIndicator();
 
-      this.drawnAtScale = scaleLinear()
-        .domain([...this.xScale().domain()])
-        .range([...this.xScale().range()]);
+      const renderCall = ++this.renderCall;
 
-      const tiles = Object.values(this.fetchedTiles);
+      this.getBuffers(
+        Object.values(this.fetchedTiles).flatMap((tile) => tile.tileData)
+      ).then(({ positions, offsets, indices }) => {
+        if (renderCall !== this.renderCall) return;
 
-      this.getBuffers(tiles.flatMap((tile) => tile.tileData)).then(
-        ({ positions, offsets, indices }) => {
-          const uniforms = new PIXI.UniformGroup({
-            uColor: [
-              ...this.strokeColorRgbNorm.map((c) => c * this.strokeOpacity),
-              this.strokeOpacity,
-            ],
-            uWidth: this.strokeWidth,
-            uMiter: 1,
-          });
+        const uniforms = new PIXI.UniformGroup({
+          uColor: [
+            ...this.strokeColorRgbNorm.map((c) => c * this.strokeOpacity),
+            this.strokeOpacity,
+          ],
+          uWidth: this.strokeWidth,
+          uMiter: 1,
+        });
 
-          const shader = PIXI.Shader.from(VS, FS, uniforms);
+        const shader = PIXI.Shader.from(VS, FS, uniforms);
 
-          const geometry = new PIXI.Geometry();
-          const numCoords = 2;
-          const numVerticesPerPoint = 2;
-          geometry.addAttribute(
-            'aPrevPosition',
-            positions,
-            2, // size
-            false, // normalize
-            PIXI.TYPES.FLOAT, // type
-            FLOAT_BYTES * numCoords, // stride
-            0 // offset/start
-          );
-          geometry.addAttribute(
-            'aCurrPosition',
-            positions,
-            2, // size
-            false, // normalize
-            PIXI.TYPES.FLOAT, // type
-            FLOAT_BYTES * numCoords, // stride
-            // note that each point is duplicated, hence we need to skip over the first two
-            FLOAT_BYTES * numCoords * numVerticesPerPoint // offset/start
-          );
-          geometry.addAttribute(
-            'aNextPosition',
-            positions,
-            2, // size
-            false, // normalize
-            PIXI.TYPES.FLOAT, // type
-            FLOAT_BYTES * 2, // stride
-            // note that each point is duplicated, hence we need to skip over the first four
-            FLOAT_BYTES * numCoords * numVerticesPerPoint * 2 // offset/start
-          );
-          geometry.addAttribute('aOffset', offsets, 1);
-          geometry.addIndex(indices);
+        const geometry = new PIXI.Geometry();
+        const numCoords = 2;
+        const numVerticesPerPoint = 2;
+        geometry.addAttribute(
+          'aPrevPosition',
+          positions,
+          2, // size
+          false, // normalize
+          PIXI.TYPES.FLOAT, // type
+          FLOAT_BYTES * numCoords, // stride
+          0 // offset/start
+        );
+        geometry.addAttribute(
+          'aCurrPosition',
+          positions,
+          2, // size
+          false, // normalize
+          PIXI.TYPES.FLOAT, // type
+          FLOAT_BYTES * numCoords, // stride
+          // note that each point is duplicated, hence we need to skip over the first two
+          FLOAT_BYTES * numCoords * numVerticesPerPoint // offset/start
+        );
+        geometry.addAttribute(
+          'aNextPosition',
+          positions,
+          2, // size
+          false, // normalize
+          PIXI.TYPES.FLOAT, // type
+          FLOAT_BYTES * 2, // stride
+          // note that each point is duplicated, hence we need to skip over the first four
+          FLOAT_BYTES * numCoords * numVerticesPerPoint * 2 // offset/start
+        );
+        geometry.addAttribute('aOffset', offsets, 1);
+        geometry.addIndex(indices);
 
-          const mesh = new PIXI.Mesh(geometry, shader);
+        const mesh = new PIXI.Mesh(geometry, shader);
 
-          const newGraphics = new PIXI.Graphics();
-          newGraphics.addChild(mesh);
+        const oldMesh = this.arcsGraphics.children.length
+          ? this.arcsGraphics.getChildAt(0)
+          : null;
 
-          // eslint-disable-next-line
-          this.pMain.x = this.position[0];
+        if (oldMesh) this.arcsGraphics.removeChildAt(0);
 
-          if (this.arcsGraphics) {
-            this.pMain.removeChild(this.arcsGraphics);
-            this.arcsGraphics.destroy();
-          }
+        this.arcsGraphics.addChild(mesh);
 
-          this.pMain.addChild(newGraphics);
-          this.arcsGraphics = newGraphics;
+        if (oldMesh) oldMesh.destroy();
 
-          scaleGraphics(this.arcsGraphics, this._xScale, this.drawnAtScale);
+        this.drawnAtScale = scaleLinear()
+          .domain([...this.xScale().domain()])
+          .range([...this.xScale().range()]);
 
-          this.draw();
-          this.animate();
-        }
-      );
+        scaleGraphics(this.arcsGraphics, this._xScale, this.drawnAtScale);
+
+        this.draw();
+        this.animate();
+      });
     }
 
     rerender(newOptions) {
@@ -397,7 +400,7 @@ export default function Arcs1DTrack(HGC, ...args) {
       this.xScale(newXScale);
       this.yScale(newYScale);
 
-      if (this.arcsGraphics) {
+      if (this.drawnAtScale) {
         scaleGraphics(this.arcsGraphics, newXScale, this.drawnAtScale);
       }
 

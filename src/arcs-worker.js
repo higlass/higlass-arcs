@@ -135,7 +135,7 @@ const worker = function worker() {
   };
 
   const getItemToEllipsesPoints = ({
-    maxWidth,
+    maxDistance,
     xScaleDomain,
     xScaleRange,
     trackHeight,
@@ -146,30 +146,34 @@ const worker = function worker() {
     minDistance = 1,
   }) => {
     const heightScale = createScale()
-      .domain([0, maxWidth])
-      .range([trackHeight / 4, (3 * trackHeight) / 4]);
+      .domain([0, maxDistance])
+      .range([trackHeight / 4, trackHeight]);
 
     const xScale = createScale().domain(xScaleDomain).range(xScaleRange);
 
     const getStart = !Number.isNaN(+startField)
-      ? (item) => item.chrOffset + item.fields[+startField]
-      : (item) => item.xStart || item.chrOffset + item.fields[1];
+      ? (item) => item.chrOffset + +item.fields[+startField]
+      : (item) => item.xStart || item.chrOffset + +item.fields[1];
 
     const getEnd = !Number.isNaN(+endField)
-      ? (item) => item.chrOffset + item.fields[+endField]
-      : (item) => item.xEnd || item.chrOffset + item.fields[2];
+      ? (item) => item.chrOffset + +item.fields[+endField]
+      : (item) => item.xEnd || item.chrOffset + +item.fields[2];
 
     return (item) => {
       const points = [];
 
-      const x1 = xScale(getStart(item));
-      const x2 = xScale(getEnd(item));
+      const start = getStart(item);
+      const end = getEnd(item);
+      const distanceBp = Math.abs(start - end);
+
+      const x1 = xScale(start);
+      const x2 = xScale(end);
       const distance = Math.abs(x1 - x2);
 
       // Points are too close. There's no point in drawing an arc
       if (distance < minDistance) return null;
 
-      const h = heightScale(item.fields[2] - +item.fields[1]);
+      const h = heightScale(distanceBp);
       const r = (x2 - x1) / 2;
 
       const cx = (x1 + x2) / 2;
@@ -304,7 +308,6 @@ const worker = function worker() {
         .filter(itemFilter)
         .map(itemToPoints)
         .filter((x) => x);
-      console.log('itemPoints', itemPoints.length);
       const buffers = pointsToBuffers(itemPoints);
 
       self.postMessage(

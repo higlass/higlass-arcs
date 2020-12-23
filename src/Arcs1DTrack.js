@@ -83,6 +83,14 @@ export default function Arcs1DTrack(HGC, ...args) {
         this.filterSet && this.filterField
           ? (item) => this.filterSet.has(item.fields[this.filterField])
           : () => true;
+
+      this.getStart = !Number.isNaN(+this.options.startField)
+        ? (item) => item.chrOffset + +item.fields[+this.options.startField]
+        : (item) => item.xStart || item.chrOffset + +item.fields[1];
+
+      this.getEnd = !Number.isNaN(+this.options.endField)
+        ? (item) => item.chrOffset + +item.fields[+this.options.endField]
+        : (item) => item.xEnd || item.chrOffset + +item.fields[2];
     }
 
     destroy() {
@@ -93,23 +101,26 @@ export default function Arcs1DTrack(HGC, ...args) {
 
     renderTile() {}
 
-    maxWidth() {
-      let maxWidth = 1;
+    maxDistance() {
+      let maxDistance = 0;
 
       for (const tile of Object.values(this.fetchedTiles)) {
         if (tile.tileData && !tile.tileData.error) {
           for (const item of tile.tileData) {
-            maxWidth = Math.max(maxWidth, item.fields[2] - item.fields[1]);
+            maxDistance = Math.max(
+              maxDistance,
+              Math.abs(this.getStart(item) - this.getEnd(item))
+            );
           }
         }
       }
 
-      return maxWidth;
+      return maxDistance;
     }
 
-    drawCircleAsSvg(item, opacityScale, getStart, getEnd) {
-      const x1 = this._xScale(getStart(item));
-      const x2 = this._xScale(getEnd(item));
+    drawCircleAsSvg(item, opacityScale) {
+      const x1 = this._xScale(this.getStart(item));
+      const x2 = this._xScale(this.getEnd(item));
       const distance = Math.abs(x1 - x2);
 
       const h = (x2 - x1) / 2;
@@ -158,12 +169,16 @@ export default function Arcs1DTrack(HGC, ...args) {
       });
     }
 
-    drawEllipseAsSvg(item, opacityScale, getStart, getEnd, heightScale) {
-      const x1 = this._xScale(getStart(item));
-      const x2 = this._xScale(getEnd(item));
+    drawEllipseAsSvg(item, opacityScale, heightScale) {
+      const start = this.getStart(item);
+      const end = this.getEnd(item);
+      const distanceBp = Math.abs(start - end);
+
+      const x1 = this._xScale(start);
+      const x2 = this._xScale(end);
       const distance = Math.abs(x1 - x2);
 
-      const h = heightScale(item.fields[2] - +item.fields[1]);
+      const h = heightScale(distanceBp);
       const r = (x2 - x1) / 2;
 
       const cx = (x1 + x2) / 2;
@@ -208,18 +223,10 @@ export default function Arcs1DTrack(HGC, ...args) {
     drawTileAsSvg(tile) {
       const items = tile.tileData.filter(this.filter);
 
-      const maxWidth = this.maxWidth();
+      const maxDistance = this.maxDistance();
       const heightScale = scaleLinear()
-        .domain([0, maxWidth])
-        .range([this.dimensions[1] / 4, (3 * this.dimensions[1]) / 4]);
-
-      const getStart = !Number.isNaN(+this.options.startField)
-        ? (item) => item.chrOffset + +item.fields[+this.options.startField]
-        : (item) => item.xStart || item.chrOffset + +item.fields[1];
-
-      const getEnd = !Number.isNaN(+this.options.endField)
-        ? (item) => item.chrOffset + +item.fields[+this.options.endField]
-        : (item) => item.xEnd || item.chrOffset + +item.fields[2];
+        .domain([0, maxDistance])
+        .range([this.dimensions[1] / 4, this.dimensions[1]]);
 
       if (items) {
         tile.graphics.clear();
@@ -229,8 +236,8 @@ export default function Arcs1DTrack(HGC, ...args) {
           const item = items[i];
 
           if (this.options.completelyContained) {
-            const x1 = this._xScale(getStart(item));
-            const x2 = this._xScale(getEnd(item));
+            const x1 = this._xScale(this.getStart(item));
+            const x2 = this._xScale(this.getEnd(item));
 
             if (x1 < this._xScale.range()[0] || x2 > this._xScale.range()[1]) {
               // one end of this
@@ -239,15 +246,9 @@ export default function Arcs1DTrack(HGC, ...args) {
           }
 
           if (this.options.arcStyle === 'circle') {
-            this.drawCircleAsSvg(item, opacityScale, getStart, getEnd);
+            this.drawCircleAsSvg(item, opacityScale);
           } else {
-            this.drawEllipseAsSvg(
-              item,
-              opacityScale,
-              getStart,
-              getEnd,
-              heightScale
-            );
+            this.drawEllipseAsSvg(item, opacityScale, heightScale);
           }
         }
       }
@@ -269,7 +270,7 @@ export default function Arcs1DTrack(HGC, ...args) {
           filterSet: this.filterSet,
           filterField: this.filterField,
           arcStyle: this.options.arcStyle,
-          maxWidth: this.maxWidth(),
+          maxDistance: this.maxDistance(),
           xScaleDomain: this._xScale.domain(),
           xScaleRange: this._xScale.range(),
           trackY: this.position[1],

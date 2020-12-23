@@ -1,12 +1,11 @@
+/* eslint-env node */
 const path = require('path');
 
-const autoprefixer = require('autoprefixer');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
+  entry: './src/index.js',
   output: {
     filename: 'higlass-arcs.min.js',
     library: 'higlass-arcs',
@@ -15,27 +14,10 @@ module.exports = {
   },
   devServer: {
     contentBase: [path.join(__dirname, 'node_modules/higlass/dist')],
-    watchContentBase: true,
   },
   optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: false,
-      }),
-      new OptimizeCssAssetsPlugin({}),
-    ],
-    splitChunks: {
-      cacheGroups: {
-        styles: {
-          name: 'index',
-          test: /\.css$/,
-          chunks: 'all',
-          enforce: true,
-        },
-      },
-    },
+    minimize: true,
+    minimizer: [new TerserPlugin()],
   },
   module: {
     rules: [
@@ -56,67 +38,14 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
-      // Convert SASS to CSS, postprocess it, and bundle it
-      {
-        test: /\.s?css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              minimize: { safe: true },
-              url: false,
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: () => [
-                require('postcss-flexbugs-fixes'),
-                autoprefixer({
-                  browsers: [
-                    '>1%',
-                    'last 4 versions',
-                    'Firefox ESR',
-                    'not ie < 9',
-                  ],
-                  flexbox: 'no-2009',
-                }),
-              ],
-            },
-          },
-          'sass-loader', // compiles Sass to CSS
-        ],
-      },
-      // Extract them HTML files
-      {
-        test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader',
-            options: { minimize: true },
-          },
-        ],
-      },
-      {
-        test: /.*\.(gif|png|jpe?g|svg)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'images/[name].[ext]',
-            },
-          },
-        ],
-      },
     ],
+  },
+  resolve: {
+    extensions: ['*', '.js', '.css', '.fs', '.vs'],
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: './src/index.html',
-      filename: './index.html',
     }),
-    new UnminifiedWebpackPlugin(),
   ],
 };

@@ -3,29 +3,13 @@
     "browser": true,
     "es6": true
   },
-  "extends": [
-    "eslint:recommended",
-    "airbnb/base",
-  ],
-  "parser": "babel-eslint",
+  "extends": ["eslint:recommended", "prettier"],
+  "plugins": ["prettier"],
   "parserOptions": {
-    "ecmaFeatures": {},
-    "ecmaVersion": 6
+    "ecmaVersion": 2021,
+    "sourceType": "module"
   },
-  "plugins": [],
   "rules": {
-    "class-methods-use-this": 0,
-    "comma-dangle": 0,
-    "no-bitwise": 0,
-    "no-plusplus": 0,
-    "no-restricted-syntax": 0,
-    "no-mixed-operators": 0,
-    "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
-    "no-param-reassign": ["error", { "props": false }],
-    "no-underscore-dangle": 0,
-    "no-unused-vars": 0,
-    "no-continue": 0,
-    "operator-linebreak": 0,
-    "function-paren-newline": ["error", "consistent"]
+    "no-console": ["warn", { "allow": ["warn", "error"] }]
   }
 }

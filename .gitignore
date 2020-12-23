@@ -2,6 +2,7 @@
 *un~
 node_modules
 dist
+demo
 *.zip
 *.log
 *.DS_cache

@@ -58,7 +58,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 2. Now, configure the track in your view config and be happy! Cheers 🎉
 
-```
+```javascript
 {
   ...
   {

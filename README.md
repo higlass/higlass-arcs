@@ -7,11 +7,13 @@
 [![build status](https://img.shields.io/github/workflow/status/higlass/higlass-arcs/build?color=a17fff&style=flat-square)](https://github.com/higlass/higlass-arcs/actions?query=workflow%3Abuild)
 [![gzipped size](https://img.badgesize.io/https:/unpkg.com/higlass-arcs/dist/higlass-arcs.min.js?color=e17fff&compression=gzip&style=flat-square)](https://bundlephobia.com/result?p=higlass-arcs)
 [![code style prettier](https://img.shields.io/badge/code_style-prettier-f57bf5.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![regl-line demo](https://img.shields.io/badge/demo-online-f264ab.svg?style=flat-square)](https://higlass.github.io/higlass-arcs/)
+[![higlass-arcs demo](https://img.shields.io/badge/demo-online-f264ab.svg?style=flat-square)](https://higlass.github.io/higlass-arcs/)
 
 ![Screenshot of the arcs track](https://user-images.githubusercontent.com/2143629/71704745-0bd15f00-2d91-11ea-99d3-4bad11dec7de.png 'An example of the arcs track')
 
 The WebGL implementation is inspired by [Matt Deslauriers' wonderful blog post on drawing lines](https://mattdesl.svbtle.com/drawing-lines-is-hard).
+
+**Live demo:** https://higlass.github.io/higlass-arcs/
 
 **Note**: This is the source code for the arcs track only! You might want to check out the following repositories as well:
 
@@ -31,14 +33,27 @@ The live script can be found at:
 
 - https://unpkg.com/higlass-arcs/dist/higlass-arcs.min.js
 
-1. Make sure you load this track prior to `hglib.js`. For example:
+1. Make sure you load this track prior to `hglib.min.js`. For example:
 
-```
-<script src="higlass-arcs.js"></script>
-<script src="hglib.js"></script>
+```html
+<script src="higlass-arcs.min.js"></script>
+<script src="hglib.min.js"></script>
 <script>
   ...
 </script>
+```
+
+If you build a custom React application, import `higlass-arcs` in your `index.js` as follows:
+
+```javascript
+import 'higlass-arcs'; // This import is all you have to do
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import App from './App';
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 2. Now, configure the track in your view config and be happy! Cheers 🎉
@@ -63,7 +78,7 @@ The live script can be found at:
 }
 ```
 
-Take a look at [`src/index.html`](src/index.html) for an example.
+Take a look at [`src/index.html`](src/index.html) for an example. You can find the corresponding live demo at https://higlass.github.io/higlass-arcs/.
 
 ## Custom Options
 

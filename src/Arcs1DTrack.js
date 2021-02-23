@@ -95,7 +95,7 @@ export default function Arcs1DTrack(HGC, ...args) {
 
       this.getEnd = !Number.isNaN(+this.options.endField)
         ? (item) => item.chrOffset + +item.fields[+this.options.endField]
-        : (item) => item.xEnd || item.chrOffset + +item.fields[2];
+        : (item) => item.yEnd || item.xEnd || item.chrOffset + +item.fields[2];
     }
 
     destroy() {

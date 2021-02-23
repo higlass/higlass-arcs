@@ -92,7 +92,7 @@ const worker = function worker() {
 
     const getEnd = !Number.isNaN(+endField)
       ? (item) => item.chrOffset + +item.fields[+endField]
-      : (item) => item.xEnd || item.chrOffset + +item.fields[2];
+      : (item) => item.yEnd || item.xEnd || item.chrOffset + +item.fields[2];
 
     return (item) => {
       const points = [];
@@ -171,7 +171,7 @@ const worker = function worker() {
 
     const getEnd = !Number.isNaN(+endField)
       ? (item) => item.chrOffset + +item.fields[+endField]
-      : (item) => item.xEnd || item.chrOffset + +item.fields[2];
+      : (item) => item.yEnd || item.xEnd || item.chrOffset + +item.fields[2];
 
     return (item) => {
       const points = [];

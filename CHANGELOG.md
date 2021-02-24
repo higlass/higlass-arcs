@@ -1,3 +1,8 @@
+## v0.3.1
+
+- Check for the presence of `yEnd` when rendering arcs to capture the use case
+  of data returned from resgen-server bedpe file
+
 ## v0.3.0
 
 - Switch rendering to WebGL with web-workers for better performance

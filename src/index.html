@@ -26,99 +26,159 @@
 const testViewConfig =
 {
   "editable": true,
-  "trackSourceServers": [
-    "/api/v1",
-    "http://higlass.io/api/v1"
-  ],
-  "exportViewUrl": "/api/v1/viewconfs",
   "views": [
     {
-      "initialXDomain": [
-        256936695.007267,
-        258079236.8129527
-      ],
-      "initialYDomain": [
-        257164041.79829004,
-        258982034.1704633
-      ],
+      "uid": "bq8XqbKnSByCds_LNA0KPw",
       "tracks": {
         "top": [
           {
-            "type": "1d-arcs",
-            "uid": "OKooAVXURUOsgui6AQxtVw",
-            "tilesetUid": "Vmf8PHS6SW-wNM9q1_aFcw",
-            "server": "http://localhost:8000/api/v1",
+            "type": "top-axis",
+            "options": {},
+            "uid": "T-h45lNeRsez_jv6rD9izg",
+            "server": "http://localhost:50478/api/v1",
+            "height": 20
+          },
+          {
+            "type": "horizontal-chromosome-labels",
             "options": {
-              "arcStyle": "ellipse",
-              "flip1D": "no",
+              "tickPositions": "ends",
+              "color": "#808080",
+              "stroke": "#ffffff",
+              "fontSize": 12,
+              "fontIsLeftAligned": false,
+              "showMousePosition": false,
+              "mousePositionColor": "#000000"
+            },
+            "tilesetUid": "ADfY_RtsQR6oKOMyrq6qhw",
+            "height": 30,
+            "width": null,
+            "server": "https://resgen.io/api/v1",
+            "uid": "LL6t70pOQWWmn9IVmicKSg"
+          },
+          {
+            "type": "horizontal-gene-annotations",
+            "options": {
+              "fontSize": 10,
               "labelColor": "black",
+              "labelBackgroundColor": "#ffffff",
               "labelPosition": "hidden",
-              "strokeColor": "black",
-              "strokeOpacity": 1,
-              "strokeWidth": 1,
+              "labelLeftMargin": 0,
+              "labelRightMargin": 0,
+              "labelTopMargin": 0,
+              "labelBottomMargin": 0,
+              "minHeight": 24,
+              "plusStrandColor": "blue",
+              "minusStrandColor": "red",
               "trackBorderWidth": 0,
               "trackBorderColor": "black",
-              "name": "http://193.147.188.155/pmargar/our_data/danio_rerio/hi_chip/80epi/merged_R1_R2/danRer10/FitHiChip_K27ac_zebrafish_80epi_R1_R2_ozren_peaks.interactions_FitHiC_Q0.01.bed.gz"
+              "showMousePosition": false,
+              "mousePositionColor": "#000000",
+              "geneAnnotationHeight": 12,
+              "geneLabelPosition": "outside",
+              "geneStrandSpacing": 4,
+              "name": "Gene Annotations (hg19)"
             },
-            "width": 499,
-            "height": 102
-          }
-        ],
-        "left": [],
-        "center": [
+            "tilesetUid": "NCifnbrKQu6j-ohVWJLoJw",
+            "height": 55,
+            "width": null,
+            "server": "https://resgen.io/api/v1",
+            "uid": "etN9kTVxTe6jn5O8uZ6Oow"
+          },
           {
-            "uid": "dGLe-fFRQXOZGthnmRjTFg",
-            "type": "combined",
-            "contents": [
-              {
-                "type": "2d-rectangle-domains",
-                "uid": "AUDZk193QtuLq1PSQgxqVg",
-                "tilesetUid": "Vmf8PHS6SW-wNM9q1_aFcw",
-                "server": "http://localhost:8000/api/v1",
-                "options": {
-                  "flipDiagonal": "none",
-                  "fontColor": "black",
-                  "fontSize": "10",
-                  "labelColor": "black",
-                  "labelPosition": "hidden",
-                  "labelLeftMargin": 0,
-                  "labelRightMargin": 0,
-                  "labelTopMargin": 0,
-                  "labelBottomMargin": 0,
-                  "trackBorderWidth": 0,
-                  "trackBorderColor": "black",
-                  "rectangleDomainFillColor": "grey",
-                  "rectangleDomainStrokeColor": "black",
-                  "rectangleDomainOpacity": 0.6,
-                  "minSquareSize": "none",
-                  "showTexts": false,
-                  "name": "http://193.147.188.155/pmargar/our_data/danio_rerio/hi_chip/80epi/merged_R1_R2/danRer10/FitHiChip_K27ac_zebrafish_80epi_R1_R2_ozren_peaks.interactions_FitHiC_Q0.01.bed.gz"
-                },
-                "width": 20,
-                "height": 20
+            "type": "horizontal-bar",
+            "options": {
+              "barFillColor": "rgb(201, 99, 95)",
+              "align": "bottom",
+              "labelColor": "[glyph-color]",
+              "labelPosition": "topLeft",
+              "labelLeftMargin": 0,
+              "labelRightMargin": 0,
+              "labelTopMargin": 0,
+              "labelBottomMargin": 0,
+              "labelShowResolution": false,
+              "axisLabelFormatting": "scientific",
+              "axisPositionHorizontal": "right",
+              "valueScaling": "linear",
+              "trackBorderWidth": 0,
+              "trackBorderColor": "black",
+              "labelTextOpacity": 0.4,
+              "barOpacity": 1,
+              "name": "microglia_H3K27ac_pooled"
+            },
+            "tilesetUid": "WyTmNKusQyuFmVmpSpPzCQ",
+            "height": 20,
+            "width": null,
+            "server": "https://resgen.io/api/v1",
+            "uid": "V3SfNozTRsCmKw3aU3XLPQ",
+            "aggregationModes": {
+              "mean": {
+                "name": "Mean",
+                "value": "mean"
+              },
+              "min": {
+                "name": "Min",
+                "value": "min"
+              },
+              "max": {
+                "name": "Max",
+                "value": "max"
+              },
+              "std": {
+                "name": "Standard Deviation",
+                "value": "std"
               }
-            ],
-            "options": {}
+            }
+          },
+          {
+            "type": "1d-arcs",
+            "uid": "u1",
+            "tilesetUid": "JzccFAJUQEiz-0188xaWZg",
+            "server": "https://resgen.io/api/v1",
+            "height": 50,
+            "options": {
+              "labelPosition": "topLeft",
+              "strokeColor": "green",
+              "strokeWidth": 1.5,
+              "strokeOpacity": 0.33,
+              "arcStyle": "circle",
+              "flip1D": "yes",
+              "labelColor": "black",
+              "name": "Neuron PLAC-seq"
+            },
+          },
+          {
+            "type": "1d-arcs",
+            "uid": "u2",
+            "server": "https://resgen.io/api/v1",
+            "tilesetUid": "JzccFAJUQEiz-0188xaWZg",
+            "height": 50,
+            "options": {
+              "labelPosition": "topLeft",
+              "strokeColor": "green",
+              "strokeWidth": 1.5,
+              "strokeOpacity": 0.33,
+              "arcStyle": "ellipsis",
+            },
           }
         ],
-        "bottom": [],
+        "center": [],
+        "left": [],
         "right": [],
+        "bottom": [],
         "whole": [],
         "gallery": []
       },
       "layout": {
         "w": 12,
-        "h": 6,
+        "h": 12,
         "x": 0,
         "y": 0
       },
-      "uid": "LPHqfUrcQ9WRy1YVg1lqDQ"
+      "initialXDomain": [2453719221, 2470150193],
+      "initialYDomain": [2453719221, 2470150193]
     }
   ],
-  "zoomLocks": {
-    "locksByViewUid": {},
-    "locksDict": {}
-  },
+  "trackSourceServers": ["http://higlass.io/api/v1"],
   "locationLocks": {
     "locksByViewUid": {},
     "locksDict": {}
@@ -126,8 +186,14 @@ const testViewConfig =
   "valueScaleLocks": {
     "locksByViewUid": {},
     "locksDict": {}
-  }
+  },
+  "zoomLocks": {
+    "locksByViewUid": {},
+    "locksDict": {}
+  },
+  "exportViewUrl": "http://higlass.io/api/v1/viewconfs"
 }
+
 
 window.hglib.viewer(
   document.getElementById('demo'),

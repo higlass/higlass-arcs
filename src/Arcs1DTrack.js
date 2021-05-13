@@ -451,7 +451,7 @@ export default function Arcs1DTrack(HGC, ...args) {
           g.setAttribute('fill', 'transparent');
           g.setAttribute('stroke', strokeColor);
           g.setAttribute('stroke-width', strokeWidth);
-          g.setAttribute('opacity', opacity);
+          g.setAttribute('stroke-opacity', opacity);
 
           g.setAttribute('d', polyStr);
           output.appendChild(g);

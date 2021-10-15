@@ -300,7 +300,7 @@ export default function Arcs1DTrack(HGC, ...args) {
 
       this.getBuffers(
         Object.values(this.fetchedTiles).flatMap((tile) => tile.tileData)
-      ).then(({ positions, offsets, indices }) => {
+      ).then(({ positions, offsets, indices, xScaleDomain, xScaleRange }) => {
         if (renderCall !== this.renderCall) return;
 
         const uniforms = new PIXI.UniformGroup({
@@ -362,8 +362,8 @@ export default function Arcs1DTrack(HGC, ...args) {
         if (oldMesh) oldMesh.destroy();
 
         this.drawnAtScale = scaleLinear()
-          .domain([...this.xScale().domain()])
-          .range([...this.xScale().range()]);
+          .domain([...xScaleDomain])
+          .range([...xScaleRange]);
 
         scaleGraphics(this.arcsGraphics, this._xScale, this.drawnAtScale);
 

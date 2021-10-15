@@ -287,6 +287,7 @@ export default function Arcs1DTrack(HGC, ...args) {
           trackHeight,
           startField: this.options.startField,
           endField: this.options.endField,
+          completelyContained: this.options.completelyContained,
           isFlipped: this.flip,
           minResolution: MIN_RESOLUTION,
         });

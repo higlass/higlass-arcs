@@ -83,6 +83,7 @@ const worker = function worker() {
     isFlipped = false,
     minResolution = 10,
     minDistance = 2,
+    completelyContained = false,
   }) => {
     const xScale = createScale().domain(xScaleDomain).range(xScaleRange);
 
@@ -100,6 +101,11 @@ const worker = function worker() {
       const x1 = xScale(getStart(item));
       const x2 = xScale(getEnd(item));
       const distance = Math.abs(x1 - x2);
+
+      if (completelyContained && (x1 < xScaleRange[0] || x2 > xScaleRange[1])) {
+        // one end of this
+        return null;
+      }
 
       // Points are too close. There's no point in drawing an arc
       if (distance < minDistance) return null;
@@ -158,6 +164,7 @@ const worker = function worker() {
     isFlipped = false,
     minResolution = 10,
     minDistance = 1,
+    completelyContained = false,
   }) => {
     const heightScale = createScale()
       .domain([0, maxDistance])
@@ -183,6 +190,11 @@ const worker = function worker() {
       const x1 = xScale(start);
       const x2 = xScale(end);
       const distance = Math.abs(x1 - x2);
+
+      if (completelyContained && (x1 < xScaleRange[0] || x2 > xScaleRange[1])) {
+        // one end of this
+        return null;
+      }
 
       // Points are too close. There's no point in drawing an arc
       if (distance < minDistance) return null;

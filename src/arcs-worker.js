@@ -329,6 +329,8 @@ const worker = function worker() {
           positions: buffers.positions,
           offsets: buffers.offsets,
           indices: buffers.indices,
+          xScaleDomain: event.data.xScaleDomain,
+          xScaleRange: event.data.xScaleRange,
         },
         [
           buffers.positions.buffer,

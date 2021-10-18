@@ -1,3 +1,8 @@
+## v0.3.4
+
+- Fixed arcs jumping around bug
+- Fixed completelyContained option not working bug
+
 ## v0.3.1
 
 - Check for the presence of `yEnd` when rendering arcs to capture the use case
